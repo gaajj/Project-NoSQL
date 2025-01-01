@@ -19,18 +19,17 @@ public class EmployeeDao extends BaseDao<Employee> {
         try {
             return collection.find().into(new ArrayList<>());
         } catch (Exception e) {
-            System.err.println("Error retrieving employee by ID: " + e.getMessage());
+            System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
 
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(String id) {
         try {
-            ObjectId objectId = new ObjectId(Integer.toString(id));
-            return collection.find(Filters.eq("_id", objectId)).first();
+            return collection.find(Filters.eq("_id", id)).first();
         } catch (Exception e) {
-            System.err.println("Error retrieving employee by ID: " + e.getMessage());
+            System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -42,7 +41,7 @@ public class EmployeeDao extends BaseDao<Employee> {
             System.out.println("Employee added: " + employee);
             return employee;
         } catch (Exception e) {
-            System.err.println("Error adding employee: " + e.getMessage());
+            System.err.println("Error in EmployeeDao adding employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

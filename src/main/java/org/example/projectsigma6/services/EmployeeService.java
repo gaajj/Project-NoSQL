@@ -25,7 +25,7 @@ public class EmployeeService {
         }
     }
 
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(String id) {
         try {
             Employee employee = employeeDao.getEmployeeById(id);
             if (employee == null) {
