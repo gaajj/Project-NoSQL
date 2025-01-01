@@ -14,6 +14,14 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
+        System.out.println(getEmployeeById("67758ef25cc5194708fe6c22"));
+    }
+
+    public static Employee getEmployeeById(String id) {
+        return employeeService.getEmployee(id);
+    }
+
+    public static void getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         for (Employee employee : employees) {
             System.out.println(employee.toString());
