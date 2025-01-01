@@ -1,0 +1,1 @@
+Bro thought he could become the next rizz king by doing the uncanny ankha zone dance like a sussy baka in Ohio💀 don’t bro know Quandale Dingle already did the forgis on the jeep thug shaker Banban style with Baller💀 bro got negative infinity morbin chill bill pizza tower barbenheimer rizz💀
