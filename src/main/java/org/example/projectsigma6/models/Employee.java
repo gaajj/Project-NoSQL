@@ -18,8 +18,8 @@ public class Employee {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String employeeType;
-    private String location;
+    private EmployeeType employeeType;
+    private Location location;
     private boolean inEmployment;
 
     public Employee() {}
@@ -33,8 +33,8 @@ public class Employee {
                     @BsonProperty("lastName") String lastName,
                     @BsonProperty("email") String email,
                     @BsonProperty("phoneNumber") String phoneNumber,
-                    @BsonProperty("employeeType") String employeeType,
-                    @BsonProperty("location") String location,
+                    @BsonProperty("employeeType") EmployeeType employeeType,
+                    @BsonProperty("location") Location location,
                     @BsonProperty("inEmployment") boolean inEmployment) {
         this.id = id;
         this.username = username;
@@ -109,19 +109,19 @@ public class Employee {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmployeeType() {
+    public EmployeeType getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(EmployeeType employeeType) {
         this.employeeType = employeeType;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

@@ -2,6 +2,8 @@ package org.example.projectsigma6.tests;
 
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
+import org.example.projectsigma6.models.enums.EmployeeType;
+import org.example.projectsigma6.models.enums.Location;
 import org.example.projectsigma6.services.EmployeeService;
 import org.example.projectsigma6.services.ServiceManager;
 
@@ -14,7 +16,9 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        System.out.println(getEmployeeById("67758ef25cc5194708fe6c22"));
+//        System.out.println(getEmployeeById("67758ef25cc5194708fe6c22"));
+//        getAllEmployees();
+//        add5Employees();
     }
 
     public static Employee getEmployeeById(String id) {
@@ -38,8 +42,8 @@ public class ExampleEmployee {
                 "Doe",                       // lastName
                 "johndoe1@example.com",      // email
                 "+31 20 123 4567",           // phoneNumber
-                "REGULAR",                   // employeeType
-                "AMSTERDAM",                 // location
+                EmployeeType.REGULAR,                   // employeeType
+                Location.ROTTERDAM,                 // location
                 true                         // inEmployment
         );
 
@@ -52,8 +56,8 @@ public class ExampleEmployee {
                 "Smith",                     // lastName
                 "janesmith@example.com",     // email
                 "+31 20 234 5678",           // phoneNumber
-                "MANAGER",                   // employeeType
-                "ROTTERDAM",                 // location
+                EmployeeType.SERVICEDESK,                   // employeeType
+                Location.UTRECHT,                 // location
                 true                         // inEmployment
         );
 
@@ -66,8 +70,8 @@ public class ExampleEmployee {
                 "Brown",                     // lastName
                 "bobbrown@example.com",      // email
                 "+31 20 345 6789",           // phoneNumber
-                "ADMIN",                     // employeeType
-                "THE HAGUE",                 // location
+                EmployeeType.SERVICEDESK,                     // employeeType
+                Location.AMSTERDAM,                 // location
                 true                         // inEmployment
         );
 
@@ -80,8 +84,8 @@ public class ExampleEmployee {
                 "Johnson",                   // lastName
                 "alicejohnson@example.com",  // email
                 "+31 20 456 7890",           // phoneNumber
-                "REGULAR",                   // employeeType
-                "AMSTERDAM",                 // location
+                EmployeeType.REGULAR,                   // employeeType
+                Location.AMSTERDAM,                 // location
                 true                         // inEmployment
         );
 
@@ -94,8 +98,8 @@ public class ExampleEmployee {
                 "Williams",                  // lastName
                 "charliewilliams@example.com", // email
                 "+31 20 567 8901",           // phoneNumber
-                "REGULAR",                   // employeeType
-                "ROTTERDAM",                 // location
+                EmployeeType.REGULAR,                   // employeeType
+                Location.ROTTERDAM,                 // location
                 false                        // inEmployment
         );
 

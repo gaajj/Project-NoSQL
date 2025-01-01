@@ -5,6 +5,8 @@ import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
+import org.example.projectsigma6.models.enums.EmployeeType;
+import org.example.projectsigma6.models.enums.Location;
 
 public class EmployeeCodec implements Codec<Employee> {
 
@@ -19,8 +21,10 @@ public class EmployeeCodec implements Codec<Employee> {
         String lastName = reader.readString("lastName");
         String email = reader.readString("email");
         String phoneNumber = reader.readString("phoneNumber");
-        String employeeType = reader.readString("employeeType");
-        String location = reader.readString("location");
+        String employeeTypeString = reader.readString("employeeType"); // String
+        EmployeeType employeeType = EmployeeType.valueOf(employeeTypeString); // String->Enum
+        String locationString = reader.readString("location"); // String
+        Location location = Location.valueOf(locationString); // String->Enum
         boolean inEmployment = reader.readBoolean("inEmployment");
         reader.readEndDocument();
 
@@ -38,8 +42,8 @@ public class EmployeeCodec implements Codec<Employee> {
         writer.writeString("lastName", employee.getLastName());
         writer.writeString("email", employee.getEmail());
         writer.writeString("phoneNumber", employee.getPhoneNumber());
-        writer.writeString("employeeType", employee.getEmployeeType());
-        writer.writeString("location", employee.getLocation());
+        writer.writeString("employeeType", employee.getEmployeeType().name()); // Enum->String
+        writer.writeString("location", employee.getLocation().name()); // Enum->String
         writer.writeBoolean("inEmployment", employee.isInEmployment());
         writer.writeEndDocument();
     }
