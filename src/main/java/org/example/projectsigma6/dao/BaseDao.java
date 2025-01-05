@@ -8,6 +8,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.example.projectsigma6.codecs.EmployeeCodec;
+import org.example.projectsigma6.codecs.TicketCodec;
 
 public abstract class BaseDao<T> {
 
@@ -18,7 +19,7 @@ public abstract class BaseDao<T> {
         // Setup codec registry
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromCodecs(new EmployeeCodec())
+                CodecRegistries.fromCodecs(new EmployeeCodec(), new TicketCodec())
         );
         // Initialize using codec registry
         this.database = mongoClient.getDatabase(databaseName).withCodecRegistry(pojoCodecRegistry);
