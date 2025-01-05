@@ -8,6 +8,7 @@ public class ServiceManager {
 
     private static ServiceManager instance;
     private EmployeeService employeeService;
+    private TicketService ticketService;
 
     private ServiceManager() {
         try {
@@ -15,6 +16,7 @@ public class ServiceManager {
             MongoClient mongoClient = MongoClients.create(uri);
 
             this.employeeService = new EmployeeService(mongoClient, "ProjectSigma");
+            this.ticketService = new TicketService(mongoClient, "ProjectSigma");
         } catch (Exception e) {
             System.err.println("Failed to initialize MongoDB connection: " + e.getMessage());
             e.printStackTrace();
@@ -31,6 +33,10 @@ public class ServiceManager {
 
     public EmployeeService getEmployeeService() {
         return employeeService;
+    }
+
+    public TicketService getTicketService() {
+        return ticketService;
     }
 
 }
