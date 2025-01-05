@@ -48,7 +48,6 @@ public class EmployeeDao extends BaseDao<Employee> {
     public Employee addEmployee(Employee employee) {
         try {
             collection.insertOne(employee);
-            System.out.println("Employee added: " + employee);
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao adding employee: " + e.getMessage());
