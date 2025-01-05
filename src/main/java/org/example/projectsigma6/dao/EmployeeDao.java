@@ -35,6 +35,16 @@ public class EmployeeDao extends BaseDao<Employee> {
         }
     }
 
+    public Employee getEmployeeByUsername(String username) {
+        try {
+            return collection.find(Filters.eq("username", username)).first();
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao retrieving employee by username: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Employee addEmployee(Employee employee) {
         try {
             collection.insertOne(employee);

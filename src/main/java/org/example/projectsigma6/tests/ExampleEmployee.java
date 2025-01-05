@@ -16,13 +16,20 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-//        System.out.println(getEmployeeById("67758ef25cc5194708fe6c22"));
+        exampleGetEmployeeById();
+        exampleGetEmployeeByUsername();
 //        getAllEmployees();
 //        add5Employees();
     }
 
-    public static Employee getEmployeeById(String id) {
-        return employeeService.getEmployee(id);
+    public static void exampleGetEmployeeById() {
+        Employee employee = employeeService.getEmployeeById("677594186f6a1620428e1d73");
+        System.out.println("Employee for id: '" + employee.getId() + "', Full name: " + employee.getFirstName() + " " + employee.getLastName());
+    }
+
+    public static void exampleGetEmployeeByUsername() {
+        Employee employee = employeeService.getEmployeeByUsername("bob.brown");
+        System.out.println("Employee for username: '" + employee.getUsername() + "', Full name: " + employee.getFirstName() + " " + employee.getLastName());
     }
 
     public static void getAllEmployees() {

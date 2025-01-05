@@ -25,11 +25,25 @@ public class EmployeeService {
         }
     }
 
-    public Employee getEmployee(String id) {
+    public Employee getEmployeeById(String id) {
         try {
             Employee employee = employeeDao.getEmployeeById(id);
             if (employee == null) {
                 throw new Exception("Employee with id " + id + " not found");
+            }
+            return employee;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Employee getEmployeeByUsername(String username) {
+        try {
+            Employee employee = employeeDao.getEmployeeByUsername(username);
+            if (employee == null) {
+                throw new Exception("Employee with username " + username + " not found");
             }
             return employee;
         } catch (Exception e) {
