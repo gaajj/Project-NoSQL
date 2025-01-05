@@ -84,6 +84,20 @@ public class EmployeeService {
         }
     }
 
+    public Employee updateEmployee(Employee employee) {
+        try {
+            Employee returnEmployee = employeeDao.updateEmployee(employee);
+            if (returnEmployee == null) {
+                throw new Exception("Failed to update employee");
+            }
+            return returnEmployee;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // Password
     public static String generateSalt() {
         SecureRandom random = new SecureRandom();

@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import javafx.application.Platform;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
 
@@ -66,6 +67,50 @@ public class EmployeeDao extends BaseDao<Employee> {
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Employee updateEmployee(Employee employee) {
+        try {
+            Employee existingEmployee = getEmployeeById(employee.getId().toString());
+            List<Bson> updates = new ArrayList<>();
+
+            if (!existingEmployee.getUsername().equals(employee.getUsername())) {
+                updates.add(Updates.set("username", employee.getUsername()));
+            }
+            if (!existingEmployee.getFirstName().equals(employee.getFirstName())) {
+                updates.add(Updates.set("firstName", employee.getFirstName()));
+            }
+            if (!existingEmployee.getLastName().equals(employee.getLastName())) {
+                updates.add(Updates.set("lastName", employee.getLastName()));
+            }
+            if (!existingEmployee.getEmail().equals(employee.getEmail())) {
+                updates.add(Updates.set("email", employee.getEmail()));
+            }
+            if (!existingEmployee.getPhoneNumber().equals(employee.getPhoneNumber())) {
+                updates.add(Updates.set("phoneNumber", employee.getPhoneNumber()));
+            }
+            if (!existingEmployee.getEmployeeType().equals(employee.getEmployeeType())) {
+                updates.add(Updates.set("employeeType", employee.getEmployeeType()));
+            }
+            if (!existingEmployee.getLocation().equals(employee.getLocation())) {
+                updates.add(Updates.set("location", employee.getLocation()));
+            }
+            if (existingEmployee.isInEmployment() == employee.isInEmployment()) {
+                updates.add(Updates.set("inEmployment", employee.isInEmployment()));
+            }
+
+            if (!updates.isEmpty()) {
+                collection.updateOne(
+                        Filters.eq("_id", employee.getId().toString()),
+                        Updates.combine(updates)
+                );
+            }
+            return employee;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao updating employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
