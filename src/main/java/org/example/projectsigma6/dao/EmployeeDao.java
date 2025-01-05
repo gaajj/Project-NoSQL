@@ -19,7 +19,9 @@ public class EmployeeDao extends BaseDao<Employee> {
 
     public List<Employee> getAllEmployees() {
         try {
-            return collection.find().into(new ArrayList<>());
+            List<Employee> employees = collection.find().into(new ArrayList<>());
+            System.out.println("Employees retreived successfully");
+            return employees;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
             e.printStackTrace();
@@ -29,7 +31,9 @@ public class EmployeeDao extends BaseDao<Employee> {
 
     public Employee getEmployeeById(String id) {
         try {
-            return collection.find(Filters.eq("_id", id)).first();
+            Employee employee = collection.find(Filters.eq("_id", id)).first();
+            System.out.println("Employee retrieved successfully: " + employee.toStringShort());
+            return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
             e.printStackTrace();
@@ -39,7 +43,9 @@ public class EmployeeDao extends BaseDao<Employee> {
 
     public Employee getEmployeeByUsername(String username) {
         try {
-            return collection.find(Filters.eq("username", username)).first();
+            Employee employee = collection.find(Filters.eq("username", username)).first();
+            System.out.println("Employee retrieved successfully: " + employee.toStringShort());
+            return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao retrieving employee by username: " + e.getMessage());
             e.printStackTrace();
@@ -50,6 +56,7 @@ public class EmployeeDao extends BaseDao<Employee> {
     public Employee addEmployee(Employee employee) {
         try {
             collection.insertOne(employee);
+            System.out.println("Employee added successfully: " + employee.toStringShort());
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao adding employee: " + e.getMessage());
@@ -64,6 +71,7 @@ public class EmployeeDao extends BaseDao<Employee> {
                     Filters.eq("_id", employee.getId().toString()),
                     Updates.set("inEmployment", false)
             );
+            System.out.println("Employee removed successfully: " + employee.toStringShort());
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
@@ -108,6 +116,7 @@ public class EmployeeDao extends BaseDao<Employee> {
                         Updates.combine(updates)
                 );
             }
+            System.out.println("Employee updated successfully: " + employee.toStringShort());
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao updating employee: " + e.getMessage());

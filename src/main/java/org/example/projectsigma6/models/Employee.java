@@ -148,4 +148,11 @@ public class Employee {
                 '}';
     }
 
+    public String toStringShort(){
+        return "Employee{" +
+                "id='" +id +
+                "', username='" + username +
+                "'}";
+    }
+
 }
