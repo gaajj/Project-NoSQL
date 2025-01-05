@@ -2,6 +2,7 @@ package org.example.projectsigma6.dao;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import javafx.application.Platform;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
@@ -51,6 +52,20 @@ public class EmployeeDao extends BaseDao<Employee> {
             return employee;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao adding employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Employee removeEmployee(Employee employee) {
+        try {
+            collection.updateOne(
+                    Filters.eq("_id", employee.getId().toString()),
+                    Updates.set("inEmployment", false)
+            );
+            return employee;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

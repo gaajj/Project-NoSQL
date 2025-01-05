@@ -16,9 +16,10 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        exampleAddEmployee();
+//        exampleAddEmployee();
 
 //        exampleGetEmployeeById();
+        exampleRemoveEmployee();
         exampleGetEmployeeByUsername();
 
 //        getAllEmployees();
@@ -60,6 +61,11 @@ public class ExampleEmployee {
         employee.setInEmployment(true);
 
         employeeService.addEmployee(employee);
+    }
+
+    public static void exampleRemoveEmployee() {
+        Employee employee = employeeService.getEmployeeByUsername("jan.de.molen");
+        employeeService.removeEmployee(employee);
     }
 
     public static void add5Employees() {

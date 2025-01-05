@@ -70,6 +70,20 @@ public class EmployeeService {
         }
     }
 
+    public Employee removeEmployee(Employee employee) {
+        try {
+            Employee returnEmployee = employeeDao.removeEmployee(employee);
+            if (returnEmployee == null) {
+                throw new Exception("Failed to remove employee");
+            }
+            return returnEmployee;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // Password
     public static String generateSalt() {
         SecureRandom random = new SecureRandom();
