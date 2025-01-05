@@ -5,6 +5,9 @@ import org.bson.types.ObjectId;
 import org.example.projectsigma6.dao.EmployeeDao;
 import org.example.projectsigma6.models.Employee;
 
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 
 public class EmployeeService {
@@ -64,6 +67,25 @@ public class EmployeeService {
             System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // Password
+    public static String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    public String hashPassword(String password, String salt) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String saltedPassword = password + salt;
+            byte[] hash = digest.digest(saltedPassword.getBytes());
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (Exception e) {
+            throw new RuntimeException("Error hashing password", e);
         }
     }
 

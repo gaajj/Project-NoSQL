@@ -16,8 +16,11 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        exampleGetEmployeeById();
+        exampleAddEmployee();
+
+//        exampleGetEmployeeById();
         exampleGetEmployeeByUsername();
+
 //        getAllEmployees();
 //        add5Employees();
     }
@@ -28,8 +31,8 @@ public class ExampleEmployee {
     }
 
     public static void exampleGetEmployeeByUsername() {
-        Employee employee = employeeService.getEmployeeByUsername("bob.brown");
-        System.out.println("Employee for username: '" + employee.getUsername() + "', Full name: " + employee.getFirstName() + " " + employee.getLastName());
+        Employee employee = employeeService.getEmployeeByUsername("jan.de.molen");
+        System.out.println("Employee for username: '" + employee.getUsername() + "', ID: " + employee.getId() + ", Full name: " + employee.getFirstName() + " " + employee.getLastName() + ", " + employee.getEmail());
     }
 
     public static void getAllEmployees() {
@@ -37,6 +40,26 @@ public class ExampleEmployee {
         for (Employee employee : employees) {
             System.out.println(employee.toString());
         }
+    }
+
+    public static void exampleAddEmployee() {
+        String salt = EmployeeService.generateSalt();
+        String password = employeeService.hashPassword("password123", salt);
+
+        Employee employee = new Employee();
+        employee.setId(new ObjectId());
+        employee.setUsername("jan.de.molen");
+        employee.setHashedPassword(password);
+        employee.setSalt(salt);
+        employee.setFirstName("Jan");
+        employee.setLastName("de Molen");
+        employee.setEmail("jandemolen@gmail.com");
+        employee.setPhoneNumber("+31 20 123 4567");
+        employee.setEmployeeType(EmployeeType.REGULAR);
+        employee.setLocation(Location.ROTTERDAM);
+        employee.setInEmployment(true);
+
+        employeeService.addEmployee(employee);
     }
 
     public static void add5Employees() {
