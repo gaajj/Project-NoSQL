@@ -3,6 +3,7 @@ package org.example.projectsigma6.services;
 import com.mongodb.client.MongoClient;
 import org.example.projectsigma6.dao.EmployeeDao;
 import org.example.projectsigma6.dao.TicketDao;
+import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
 
 import java.util.List;
@@ -32,8 +33,19 @@ public class TicketService {
             return null;
         }
     }
+
     public Ticket addTicket(Ticket ticket) {
-        return ticketDao.addTicket(ticket);
+        try {
+            Ticket returnTicket = ticketDao.addTicket(ticket);
+            if (returnTicket == null) {
+                throw new Exception("Failed to add ticket");
+            }
+            return returnTicket;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeService while adding employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Ticket removeTicket(Ticket ticket) {
