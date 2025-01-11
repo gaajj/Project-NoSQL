@@ -57,7 +57,7 @@ public class TicketDao extends BaseDao<Ticket> {
         try {
             collection.updateOne(
                     Filters.eq("_id", ticket.getId().toString()),
-                    Updates.set("inEmployment", false)
+                    Updates.set("isDeleted", false)
             );
             System.out.println("Ticket removed successfully: " + ticket.toStringShort());
             return ticket;
