@@ -4,19 +4,30 @@ import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
 import org.example.projectsigma6.models.enums.*;
+import org.example.projectsigma6.services.EmployeeService;
 import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ExampleTicket {
 
     private static TicketService ticketService;
+    private static EmployeeService employeeService;
 
     public static void main(String[] args) {
         ticketService = ServiceManager.getInstance().getTicketService();
+        employeeService = ServiceManager.getInstance().getEmployeeService();
 
+        exampleAddTicket();
+    }
+
+    public static void exampleGetTicketById() {
+        Ticket ticket = ticketService.getTicketById("678290eafabd91794c7b5da7");
+        System.out.println(ticket.toStringShort());
     }
 
     public static void exampleGetAllTickets() {
@@ -24,6 +35,30 @@ public class ExampleTicket {
         for (Ticket ticket : tickets) {
             System.out.println(ticket);
         }
+    }
+
+    public static void exampleAddTicket() {
+
+        Employee createdBy = employeeService.getEmployeeByUsername("john.doe");
+        Employee assignedTo = employeeService.getEmployeeByUsername("jane.smith");
+
+        Ticket ticket = new Ticket();
+        ticket.setId(new ObjectId());
+        ticket.setTitle("Meow");
+        ticket.setDescription("What the sigma");
+        ticket.setType(TicketType.TASK);
+        ticket.setStatus(TicketStatus.IN_PROGRESS);
+        ticket.setPriority(TicketPriority.HIGH);
+        ticket.setCreatedBy(createdBy);
+        ticket.setAssignedTo(assignedTo);
+        ticket.setDueDate(new GregorianCalendar(2025, Calendar.APRIL, 20).getTime());
+
+        ticketService.addTicket(ticket);
+    }
+
+    public static void exampleRemoveTicket() {
+        Ticket ticket = ticketService.getTicketById("678290eafabd91794c7b5da7");
+        ticketService.removeTicket(ticket);
     }
 
     public static void exampleAdd3Tickets() {
