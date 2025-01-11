@@ -22,6 +22,8 @@ public class Ticket {
     private Employee assignedTo;
     private Date dueDate;
 
+    public Ticket() {}
+
     public Ticket(@BsonProperty("id") ObjectId id,
                   @BsonProperty("title") String title,
                   @BsonProperty("description") String description,
