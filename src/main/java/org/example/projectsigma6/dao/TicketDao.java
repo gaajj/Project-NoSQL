@@ -97,6 +97,9 @@ public class TicketDao extends BaseDao<Ticket> {
             if (!existingTicket.getDueDate().equals(ticket.getDueDate())) {
                 updates.add(Filters.eq("dueDate", ticket.getDueDate()));
             }
+            if (existingTicket.isDeleted() == ticket.isDeleted()) {
+                updates.add(Filters.eq("isDeleted", ticket.isDeleted()));
+            }
 
             if (!updates.isEmpty()) {
                 collection.updateOne(

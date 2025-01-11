@@ -21,6 +21,7 @@ public class Ticket {
     private Employee createdBy;
     private Employee assignedTo;
     private Date dueDate;
+    private boolean isDeleted;
 
     public Ticket() {}
 
@@ -32,7 +33,8 @@ public class Ticket {
                   @BsonProperty("priority") TicketPriority priority,
                   @BsonProperty("createdBy") Employee createdBy,
                   @BsonProperty("assignedTo") Employee assignedTo,
-                  @BsonProperty("dueDate") Date dueDate) {
+                  @BsonProperty("dueDate") Date dueDate,
+                  @BsonProperty("isDeleted") boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -42,6 +44,7 @@ public class Ticket {
         this.createdBy = createdBy;
         this.assignedTo = assignedTo;
         this.dueDate = dueDate;
+        this.isDeleted = isDeleted;
     }
 
     public ObjectId getId() {
@@ -114,6 +117,14 @@ public class Ticket {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

@@ -38,9 +38,10 @@ public class TicketCodec implements Codec<Ticket> {
         reader.readName("assignedTo");
         Employee assignedTo = employeeCodec.decode(reader, decoderContext);
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
+        boolean isDeleted = reader.readBoolean("isDeleted");
 
         reader.readEndDocument();
-        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, dueDate);
+        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, dueDate, isDeleted);
     }
 
     @Override
@@ -58,6 +59,7 @@ public class TicketCodec implements Codec<Ticket> {
         writer.writeName("assignedTo");
         employeeCodec.encode(writer, ticket.getAssignedTo(), encoderContext);
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
+        writer.writeBoolean("inEmployment", ticket.isDeleted());
 
         writer.writeEndDocument();
     }
