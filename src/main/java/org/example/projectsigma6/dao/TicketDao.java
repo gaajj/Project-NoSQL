@@ -23,7 +23,7 @@ public class TicketDao extends BaseDao<Ticket> {
             System.out.println("Employees tickets successfully");
             return tickets;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
+            System.err.println("Error in TicketDao retrieving employee by ID: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -35,7 +35,7 @@ public class TicketDao extends BaseDao<Ticket> {
             System.out.println("Ticket retrieved successfully: " + ticket.toStringShort());
             return ticket;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
+            System.err.println("Error in TicketDao retrieving ticket by ID: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -47,7 +47,7 @@ public class TicketDao extends BaseDao<Ticket> {
             System.out.println("Ticket added successfully: " + ticket.toStringShort());
             return ticket;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeDao adding employee: " + e.getMessage());
+            System.err.println("Error in TicketDao adding ticket: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -62,7 +62,7 @@ public class TicketDao extends BaseDao<Ticket> {
             System.out.println("Ticket removed successfully: " + ticket.toStringShort());
             return ticket;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
+            System.err.println("Error in TicketDao removing ticket: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -107,7 +107,7 @@ public class TicketDao extends BaseDao<Ticket> {
             System.out.println("Ticket updated successfully: " + ticket.toStringShort());
             return ticket;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeDao updating employee: " + e.getMessage());
+            System.err.println("Error in TicketDao updating ticket: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
