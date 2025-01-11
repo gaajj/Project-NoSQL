@@ -13,6 +13,7 @@ public class EmployeeCodec implements Codec<Employee> {
     @Override
     public Employee decode(BsonReader reader, org.bson.codecs.DecoderContext decoderContext) {
         reader.readStartDocument();
+
         ObjectId id = new ObjectId(reader.readString("_id"));
         String username = reader.readString("username");
         String hashedPassword = reader.readString("hashedPassword");
@@ -34,6 +35,7 @@ public class EmployeeCodec implements Codec<Employee> {
     @Override
     public void encode(BsonWriter writer, Employee employee, org.bson.codecs.EncoderContext encoderContext) {
         writer.writeStartDocument();
+
         writer.writeString("_id", employee.getId().toString());
         writer.writeString("username", employee.getUsername());
         writer.writeString("hashedPassword", employee.getHashedPassword());
@@ -45,6 +47,7 @@ public class EmployeeCodec implements Codec<Employee> {
         writer.writeString("employeeType", employee.getEmployeeType().name()); // Enum->String
         writer.writeString("location", employee.getLocation().name()); // Enum->String
         writer.writeBoolean("inEmployment", employee.isInEmployment());
+
         writer.writeEndDocument();
     }
 

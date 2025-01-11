@@ -40,7 +40,6 @@ public class TicketCodec implements Codec<Ticket> {
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
 
         reader.readEndDocument();
-
         return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, dueDate);
     }
 
