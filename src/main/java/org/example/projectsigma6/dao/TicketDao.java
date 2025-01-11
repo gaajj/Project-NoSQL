@@ -74,36 +74,36 @@ public class TicketDao extends BaseDao<Ticket> {
             List<Bson> updates = new ArrayList<>();
 
             if (!existingTicket.getTitle().equals(ticket.getTitle())) {
-                updates.add(Filters.eq("title", ticket.getTitle()));
+                updates.add(Updates.set("title", ticket.getTitle()));
             }
             if (!existingTicket.getDescription().equals(ticket.getDescription())) {
-                updates.add(Filters.eq("description", ticket.getDescription()));
+                updates.add(Updates.set("description", ticket.getDescription()));
             }
             if (!existingTicket.getType().equals(ticket.getType())) {
-                updates.add(Filters.eq("type", ticket.getType()));
+                updates.add(Updates.set("type", ticket.getType()));
             }
             if (!existingTicket.getStatus().equals(ticket.getStatus())) {
-                updates.add(Filters.eq("status", ticket.getStatus()));
+                updates.add(Updates.set("status", ticket.getStatus()));
             }
             if (!existingTicket.getPriority().equals(ticket.getPriority())) {
-                updates.add(Filters.eq("priority", ticket.getPriority()));
+                updates.add(Updates.set("priority", ticket.getPriority()));
             }
             if (!existingTicket.getCreatedBy().equals(ticket.getCreatedBy())) {
-                updates.add(Filters.eq("createdBy", ticket.getCreatedBy()));
+                updates.add(Updates.set("createdBy", ticket.getCreatedBy()));
             }
             if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
-                updates.add(Filters.eq("assignedTo", ticket.getAssignedTo()));
+                updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
             }
             if (!existingTicket.getDueDate().equals(ticket.getDueDate())) {
-                updates.add(Filters.eq("dueDate", ticket.getDueDate()));
+                updates.add(Updates.set("dueDate", ticket.getDueDate()));
             }
             if (existingTicket.isDeleted() == ticket.isDeleted()) {
-                updates.add(Filters.eq("isDeleted", ticket.isDeleted()));
+                updates.add(Updates.set("isDeleted", ticket.isDeleted()));
             }
 
             if (!updates.isEmpty()) {
                 collection.updateOne(
-                        Filters.in("_id", ticket.getId().toString()),
+                        Filters.eq("_id", ticket.getId().toString()),
                         Updates.combine(updates)
                 );
             }
