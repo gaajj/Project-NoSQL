@@ -22,7 +22,6 @@ public class ExampleTicket {
         ticketService = ServiceManager.getInstance().getTicketService();
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        exampleRemoveTicket();
     }
 
     public static void exampleGetTicketById() {
@@ -58,8 +57,16 @@ public class ExampleTicket {
     }
 
     public static void exampleRemoveTicket() {
-        Ticket ticket = ticketService.getTicketById("6782a0279cac177e9e08ad8e");
+        Ticket ticket = ticketService.getTicketById("6782a37343375677a2dce2ad");
         ticketService.removeTicket(ticket);
+    }
+
+    public static void exampleUpdateTicket() {
+        Ticket ticket = ticketService.getTicketById("6782a37343375677a2dce2ad");
+        ticket.setTitle("Meow Meow Meow Meow Meow");
+        ticket.setDescription("What the Skibidibi");
+
+        ticketService.updateTicket(ticket);
     }
 
     public static void exampleAdd3Tickets() {
