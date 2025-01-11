@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.projectsigma6.controllers.LoginController;
+import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.services.EmployeeService;
 import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
@@ -15,6 +16,7 @@ public class MainApp extends Application {
 
     private EmployeeService employeeService;
     private TicketService ticketService;
+    private Employee loggedInEmployee;
 
     @Override
     public void start(Stage primaryStage) {
@@ -22,7 +24,7 @@ public class MainApp extends Application {
             employeeService = ServiceManager.getInstance().getEmployeeService();
             ticketService = ServiceManager.getInstance().getTicketService();
 
-            loadPage(primaryStage, "Login.fxml", new LoginController(employeeService), "Login");
+            loadPage(primaryStage, "Login.fxml", new LoginController(this), "Login");
         } catch (Exception e) {
             System.err.println("Failed to start the User Interface: " + e.getMessage());
             e.printStackTrace();
@@ -45,6 +47,14 @@ public class MainApp extends Application {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    public void setLoggedInEmployee(Employee employee) {
+        this.loggedInEmployee = employee;
+    }
+
+    public Employee getLoggedInEmployee() {
+        return loggedInEmployee;
     }
 
     public static void main(String[] args) {
