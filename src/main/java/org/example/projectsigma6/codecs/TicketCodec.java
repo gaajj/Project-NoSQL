@@ -59,7 +59,7 @@ public class TicketCodec implements Codec<Ticket> {
         writer.writeName("assignedTo");
         employeeCodec.encode(writer, ticket.getAssignedTo(), encoderContext);
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
-        writer.writeBoolean("inEmployment", ticket.isDeleted());
+        writer.writeBoolean("isDeleted", ticket.isDeleted());
 
         writer.writeEndDocument();
     }
