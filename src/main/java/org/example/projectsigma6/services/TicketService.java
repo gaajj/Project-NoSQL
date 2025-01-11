@@ -19,8 +19,49 @@ public class TicketService {
         return ticketDao.getAllTickets();
     }
 
+    public Ticket getTicketById(String id) {
+        try {
+            Ticket ticket = ticketDao.getTicketById(id);
+            if (ticket == null) {
+                throw new Exception("Ticket with id " + id + " not found");
+            }
+            return ticket;
+        } catch (Exception e) {
+            System.err.println("Error in TicketService while fetching ticket: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
     public Ticket addTicket(Ticket ticket) {
         return ticketDao.addTicket(ticket);
+    }
+
+    public Ticket removeTicket(Ticket ticket) {
+        try {
+            Ticket returnTicket = ticketDao.removeTicket(ticket);
+            if (returnTicket == null) {
+                throw new Exception("Failed to remove ticket");
+            }
+            return returnTicket;
+        } catch (Exception e) {
+            System.err.println("Error in TicketService while fetching ticket: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Ticket updateTicket(Ticket ticket) {
+        try {
+            Ticket returnTicket = ticketDao.updateTicket(ticket);
+            if (returnTicket == null) {
+                throw new Exception("Failed to update ticket");
+            }
+            return returnTicket;
+        } catch (Exception e) {
+            System.err.println("Error in TicketService while fetching ticket: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
