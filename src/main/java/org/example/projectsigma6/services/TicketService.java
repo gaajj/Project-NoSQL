@@ -44,7 +44,7 @@ public class TicketService {
             }
             return returnTicket;
         } catch (Exception e) {
-            System.err.println("Error in TicketService while fetching ticket: " + e.getMessage());
+            System.err.println("Error in TicketService while removing ticket: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -58,7 +58,7 @@ public class TicketService {
             }
             return returnTicket;
         } catch (Exception e) {
-            System.err.println("Error in TicketService while fetching ticket: " + e.getMessage());
+            System.err.println("Error in TicketService while updating ticket: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
