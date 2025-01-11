@@ -22,7 +22,7 @@ public class ExampleTicket {
         ticketService = ServiceManager.getInstance().getTicketService();
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        exampleAddTicket();
+        exampleRemoveTicket();
     }
 
     public static void exampleGetTicketById() {
@@ -52,12 +52,13 @@ public class ExampleTicket {
         ticket.setCreatedBy(createdBy);
         ticket.setAssignedTo(assignedTo);
         ticket.setDueDate(new GregorianCalendar(2025, Calendar.APRIL, 20).getTime());
+        ticket.setDeleted(false);
 
         ticketService.addTicket(ticket);
     }
 
     public static void exampleRemoveTicket() {
-        Ticket ticket = ticketService.getTicketById("678290eafabd91794c7b5da7");
+        Ticket ticket = ticketService.getTicketById("6782a0279cac177e9e08ad8e");
         ticketService.removeTicket(ticket);
     }
 
@@ -83,7 +84,8 @@ public class ExampleTicket {
                 TicketPriority.HIGH,                   // priority
                 createdBy1,                            // createdBy
                 assignedTo1,                           // assignedTo
-                new Date()                              // current date as dueDate
+                new Date(),                            // current date as dueDate
+                false
         );
 
         // Ticket 2
@@ -107,7 +109,8 @@ public class ExampleTicket {
                 TicketPriority.MEDIUM,                       // priority
                 createdBy2,                                  // createdBy
                 assignedTo2,                                 // assignedTo
-                new Date(System.currentTimeMillis() + 86400000) // dueDate set to 1 day from now
+                new Date(System.currentTimeMillis() + 86400000),// dueDate set to 1 day from now
+                false
         );
 
         // Ticket 3
@@ -131,7 +134,8 @@ public class ExampleTicket {
                 TicketPriority.HIGH,                   // priority
                 createdBy3,                            // createdBy
                 assignedTo3,                           // assignedTo
-                new Date(System.currentTimeMillis() - 86400000) // dueDate set to 1 day ago
+                new Date(System.currentTimeMillis() - 86400000), // dueDate set to 1 day ago
+                false
         );
 
         // Add tickets to the database (this will depend on your ticketService implementation)
