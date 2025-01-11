@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import javafx.scene.Parent;
+import org.bson.conversions.Bson;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
 
@@ -62,6 +63,51 @@ public class TicketDao extends BaseDao<Ticket> {
             return ticket;
         } catch (Exception e) {
             System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Ticket updateTicket(Ticket ticket) {
+        try {
+            Ticket existingTicket = getTicketById(ticket.getId().toString());
+            List<Bson> updates = new ArrayList<>();
+
+            if (!existingTicket.getTitle().equals(ticket.getTitle())) {
+                updates.add(Filters.eq("title", ticket.getTitle()));
+            }
+            if (!existingTicket.getDescription().equals(ticket.getDescription())) {
+                updates.add(Filters.eq("description", ticket.getDescription()));
+            }
+            if (!existingTicket.getType().equals(ticket.getType())) {
+                updates.add(Filters.eq("type", ticket.getType()));
+            }
+            if (!existingTicket.getStatus().equals(ticket.getStatus())) {
+                updates.add(Filters.eq("status", ticket.getStatus()));
+            }
+            if (!existingTicket.getPriority().equals(ticket.getPriority())) {
+                updates.add(Filters.eq("priority", ticket.getPriority()));
+            }
+            if (!existingTicket.getCreatedBy().equals(ticket.getCreatedBy())) {
+                updates.add(Filters.eq("createdBy", ticket.getCreatedBy()));
+            }
+            if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
+                updates.add(Filters.eq("assignedTo", ticket.getAssignedTo()));
+            }
+            if (!existingTicket.getDueDate().equals(ticket.getDueDate())) {
+                updates.add(Filters.eq("dueDate", ticket.getDueDate()));
+            }
+
+            if (!updates.isEmpty()) {
+                collection.updateOne(
+                        Filters.in("_id", ticket.getId().toString()),
+                        Updates.combine(updates)
+                );
+            }
+            System.out.println("Ticket updated successfully: " + ticket.toStringShort());
+            return ticket;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao updating employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
