@@ -14,16 +14,11 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
-    private EmployeeService employeeService;
-    private TicketService ticketService;
     private Employee loggedInEmployee;
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            employeeService = ServiceManager.getInstance().getEmployeeService();
-            ticketService = ServiceManager.getInstance().getTicketService();
-
             loadPage(primaryStage, "Login.fxml", new LoginController(this), "Login");
         } catch (Exception e) {
             System.err.println("Failed to start the User Interface: " + e.getMessage());
