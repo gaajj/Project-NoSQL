@@ -1,6 +1,8 @@
 package org.example.projectsigma6.dao;
 
 import com.mongodb.client.MongoClient;
+import com.mongodb.client.model.Filters;
+import javafx.scene.Parent;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
 
@@ -25,6 +27,18 @@ public class TicketDao extends BaseDao<Ticket> {
         }
     }
 
+    public Ticket getTicketById(String id) {
+        try {
+            Ticket ticket = collection.find(Filters.eq("_id", id)).first();
+            System.out.println("Ticket retrieved successfully: " + ticket.toStringShort());
+            return ticket;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao retrieving employee by ID: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Ticket addTicket(Ticket ticket) {
         try {
             collection.insertOne(ticket);
@@ -36,5 +50,7 @@ public class TicketDao extends BaseDao<Ticket> {
             return null;
         }
     }
+
+
 
 }
