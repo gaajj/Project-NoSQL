@@ -2,6 +2,7 @@ package org.example.projectsigma6.dao;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import javafx.scene.Parent;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
@@ -51,6 +52,19 @@ public class TicketDao extends BaseDao<Ticket> {
         }
     }
 
-
+    public Ticket removeTicket(Ticket ticket) {
+        try {
+            collection.updateOne(
+                    Filters.eq("_id", ticket.getId().toString()),
+                    Updates.set("inEmployment", false)
+            );
+            System.out.println("Ticket removed successfully: " + ticket.toStringShort());
+            return ticket;
+        } catch (Exception e) {
+            System.err.println("Error in EmployeeDao removing employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
