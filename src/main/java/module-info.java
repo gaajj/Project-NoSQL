@@ -10,4 +10,5 @@ module example.projectsigma6 {
     opens org.example.projectsigma6 to javafx.fxml;
     exports org.example.projectsigma6;
     exports org.example.projectsigma6.tests;
+    opens org.example.projectsigma6.controllers to javafx.fxml;
 }
