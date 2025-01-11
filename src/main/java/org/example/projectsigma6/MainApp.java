@@ -14,12 +14,15 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
+    private Stage primaryStage;
     private Employee loggedInEmployee;
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            loadPage(primaryStage, "Login.fxml", new LoginController(this), "Login");
+            this.primaryStage = primaryStage;
+
+            loadPage( "Login.fxml", new LoginController(this), "Login");
         } catch (Exception e) {
             System.err.println("Failed to start the User Interface: " + e.getMessage());
             e.printStackTrace();
@@ -27,7 +30,7 @@ public class MainApp extends Application {
         }
     }
 
-    public void loadPage(Stage primaryStage, String fxmlFile, Object Controller, String title) {
+    public void loadPage(String fxmlFile, Object Controller, String title) {
         try {
             System.out.println("[+] Loading " + fxmlFile);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
