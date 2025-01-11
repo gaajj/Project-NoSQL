@@ -18,13 +18,13 @@ import java.util.Date;
 
 public class TicketCodec implements Codec<Ticket> {
 
+    private final EmployeeCodec employeeCodec = new EmployeeCodec();
+
     @Override
     public Ticket decode(BsonReader reader, DecoderContext decoderContext) {
-        EmployeeService employeeService = ServiceManager.getInstance().getEmployeeService();
         reader.readStartDocument();
 
-        // Read fields from the BSON document
-        ObjectId id = new ObjectId(reader.readString("id"));
+        ObjectId id = new ObjectId(reader.readString("_id"));
         String title = reader.readString("title");
         String description = reader.readString("description");
         String typeString = reader.readString("type"); // String
@@ -33,13 +33,11 @@ public class TicketCodec implements Codec<Ticket> {
         TicketStatus status = TicketStatus.valueOf(statusString); // String -> Enum
         String priorityString = reader.readString("priority"); // String
         TicketPriority priority = TicketPriority.valueOf(priorityString); // String -> Enum
-        ObjectId createdById = new ObjectId(reader.readString("createdBy"));
-        ObjectId assignedToId = new ObjectId(reader.readString("assignedTo"));
+        reader.readName("createdBy");
+        Employee createdBy = employeeCodec.decode(reader, decoderContext);
+        reader.readName("assignedTo");
+        Employee assignedTo = employeeCodec.decode(reader, decoderContext);
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
-
-        // Get employees by ID's
-        Employee createdBy = employeeService.getEmployeeById(String.valueOf(createdById));
-        Employee assignedTo = employeeService.getEmployeeById(String.valueOf(assignedToId));
 
         reader.readEndDocument();
 
@@ -50,15 +48,16 @@ public class TicketCodec implements Codec<Ticket> {
     public void encode(BsonWriter writer, Ticket ticket, EncoderContext encoderContext) {
         writer.writeStartDocument();
 
-        // Write fields to the BSON document
-        writer.writeString("id", ticket.getId().toString());
+        writer.writeString("_id", ticket.getId().toString());
         writer.writeString("title", ticket.getTitle());
         writer.writeString("description", ticket.getDescription());
         writer.writeString("type", ticket.getType().name()); // Enum -> String
         writer.writeString("status", ticket.getStatus().name()); // Enum -> String
         writer.writeString("priority", ticket.getPriority().name()); // Enum -> String
-        writer.writeString("createdBy", ticket.getCreatedBy().getId().toString()); // Assuming Employee has getId() method
-        writer.writeString("assignedTo", ticket.getAssignedTo().getId().toString()); // Assuming Employee has getId() method
+        writer.writeName("createdBy");
+        employeeCodec.encode(writer, ticket.getCreatedBy(), encoderContext);
+        writer.writeName("assignedTo");
+        employeeCodec.encode(writer, ticket.getAssignedTo(), encoderContext);
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
 
         writer.writeEndDocument();

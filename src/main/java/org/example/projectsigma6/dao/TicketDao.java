@@ -15,7 +15,7 @@ public class TicketDao extends BaseDao<Ticket> {
 
     public List<Ticket> getAllTickets() {
         try {
-            List<Ticket> tickets = collection.find().into(new ArrayList<Ticket>());
+            List<Ticket> tickets = collection.find().into(new ArrayList<>());
             System.out.println("Employees tickets successfully");
             return tickets;
         } catch (Exception e) {
