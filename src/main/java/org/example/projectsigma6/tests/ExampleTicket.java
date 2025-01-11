@@ -17,7 +17,6 @@ public class ExampleTicket {
     public static void main(String[] args) {
         ticketService = ServiceManager.getInstance().getTicketService();
 
-        exampleAdd3Tickets();
     }
 
     public static void exampleGetAllTickets() {

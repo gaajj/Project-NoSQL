@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.enums.EmployeeType;
 import org.example.projectsigma6.models.enums.Location;
+import org.example.projectsigma6.models.enums.TicketStatus;
 import org.example.projectsigma6.services.EmployeeService;
 import org.example.projectsigma6.services.ServiceManager;
 
@@ -16,9 +17,6 @@ public class ExampleEmployee {
     public static void main(String[] args) {
         employeeService = ServiceManager.getInstance().getEmployeeService();
 
-        exampleGetEmployeeByUsername();
-        exampleUpdateEmployee();
-        exampleGetEmployeeByUsername();
     }
 
     public static void exampleGetEmployeeById() {
