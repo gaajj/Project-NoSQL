@@ -1,14 +1,23 @@
 package org.example.projectsigma6.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import org.example.projectsigma6.MainApp;
 
 public class MainController {
 
     private MainApp mainApp;
 
+    @FXML
+    private Label usernameLabel;
+
     public MainController(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+
+    @FXML
+    public void initialize() {
+        usernameLabel.setText(mainApp.getLoggedInEmployee().getUsername());
     }
 
     @FXML
