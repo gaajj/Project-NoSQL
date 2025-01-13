@@ -20,7 +20,7 @@ public class TicketDao extends BaseDao<Ticket> {
     public List<Ticket> getAllTickets() {
         try {
             List<Ticket> tickets = collection.find().into(new ArrayList<>());
-            System.out.println("Employees tickets successfully");
+            System.out.println("Employees tickets successfully retrieved");
             return tickets;
         } catch (Exception e) {
             System.err.println("Error in TicketDao retrieving employee by ID: " + e.getMessage());
