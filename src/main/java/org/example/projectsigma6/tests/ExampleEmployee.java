@@ -70,80 +70,89 @@ public class ExampleEmployee {
     }
 
     public static void add5Employees() {
-        ObjectId id1 = new ObjectId();
-        Employee employee1 = new Employee(id1,
-                "john.doe",                  // username
-                "hashedPassword1",           // hashedPassword
-                "salt1",                     // salt
-                "John",                      // firstName
-                "Doe",                       // lastName
-                "johndoe1@example.com",      // email
-                "+31 20 123 4567",           // phoneNumber
-                EmployeeType.REGULAR,                   // employeeType
-                Location.ROTTERDAM,                 // location
-                true                         // inEmployment
-        );
-
-        ObjectId id2 = new ObjectId();
-        Employee employee2 = new Employee(id2,
-                "jane.smith",                // username
-                "hashedPassword2",           // hashedPassword
-                "salt2",                     // salt
-                "Jane",                      // firstName
-                "Smith",                     // lastName
-                "janesmith@example.com",     // email
-                "+31 20 234 5678",           // phoneNumber
-                EmployeeType.SERVICEDESK,                   // employeeType
-                Location.UTRECHT,                 // location
-                true                         // inEmployment
-        );
-
-        ObjectId id3 = new ObjectId();
-        Employee employee3 = new Employee(id3,
-                "bob.brown",                 // username
-                "hashedPassword3",           // hashedPassword
-                "salt3",                     // salt
-                "Bob",                       // firstName
-                "Brown",                     // lastName
-                "bobbrown@example.com",      // email
-                "+31 20 345 6789",           // phoneNumber
-                EmployeeType.SERVICEDESK,                     // employeeType
-                Location.AMSTERDAM,                 // location
-                true                         // inEmployment
-        );
-
-        ObjectId id4 = new ObjectId();
-        Employee employee4 = new Employee(id4,
-                "alice.johnson",             // username
-                "hashedPassword4",           // hashedPassword
-                "salt4",                     // salt
-                "Alice",                     // firstName
-                "Johnson",                   // lastName
-                "alicejohnson@example.com",  // email
-                "+31 20 456 7890",           // phoneNumber
-                EmployeeType.REGULAR,                   // employeeType
-                Location.AMSTERDAM,                 // location
-                true                         // inEmployment
-        );
-
-        ObjectId id5 = new ObjectId();
-        Employee employee5 = new Employee(id5,
-                "charlie.williams",          // username
-                "hashedPassword5",           // hashedPassword
-                "salt5",                     // salt
-                "Charlie",                   // firstName
-                "Williams",                  // lastName
-                "charliewilliams@example.com", // email
-                "+31 20 567 8901",           // phoneNumber
-                EmployeeType.REGULAR,                   // employeeType
-                Location.ROTTERDAM,                 // location
-                false                        // inEmployment
-        );
-
+        // Employee 1
+        String salt1 = EmployeeService.generateSalt();
+        String password1 = employeeService.hashPassword("password1", salt1);
+        Employee employee1 = new Employee();
+        employee1.setId(new ObjectId());
+        employee1.setUsername("john.doe");
+        employee1.setHashedPassword(password1);
+        employee1.setSalt(salt1);
+        employee1.setFirstName("John");
+        employee1.setLastName("Doe");
+        employee1.setEmail("johndoe1@example.com");
+        employee1.setPhoneNumber("+31 20 123 4567");
+        employee1.setEmployeeType(EmployeeType.REGULAR);
+        employee1.setLocation(Location.ROTTERDAM);
+        employee1.setInEmployment(true);
         employeeService.addEmployee(employee1);
+
+        // Employee 2
+        String salt2 = EmployeeService.generateSalt();
+        String password2 = employeeService.hashPassword("password2", salt2);
+        Employee employee2 = new Employee();
+        employee2.setId(new ObjectId());
+        employee2.setUsername("jane.smith");
+        employee2.setHashedPassword(password2);
+        employee2.setSalt(salt2);
+        employee2.setFirstName("Jane");
+        employee2.setLastName("Smith");
+        employee2.setEmail("janesmith@example.com");
+        employee2.setPhoneNumber("+31 20 234 5678");
+        employee2.setEmployeeType(EmployeeType.SERVICEDESK);
+        employee2.setLocation(Location.UTRECHT);
+        employee2.setInEmployment(true);
         employeeService.addEmployee(employee2);
+
+        // Employee 3
+        String salt3 = EmployeeService.generateSalt();
+        String password3 = employeeService.hashPassword("password3", salt3);
+        Employee employee3 = new Employee();
+        employee3.setId(new ObjectId());
+        employee3.setUsername("bob.brown");
+        employee3.setHashedPassword(password3);
+        employee3.setSalt(salt3);
+        employee3.setFirstName("Bob");
+        employee3.setLastName("Brown");
+        employee3.setEmail("bobbrown@example.com");
+        employee3.setPhoneNumber("+31 20 345 6789");
+        employee3.setEmployeeType(EmployeeType.SERVICEDESK);
+        employee3.setLocation(Location.AMSTERDAM);
+        employee3.setInEmployment(true);
         employeeService.addEmployee(employee3);
+
+        // Employee 4
+        String salt4 = EmployeeService.generateSalt();
+        String password4 = employeeService.hashPassword("password4", salt4);
+        Employee employee4 = new Employee();
+        employee4.setId(new ObjectId());
+        employee4.setUsername("alice.johnson");
+        employee4.setHashedPassword(password4);
+        employee4.setSalt(salt4);
+        employee4.setFirstName("Alice");
+        employee4.setLastName("Johnson");
+        employee4.setEmail("alicejohnson@example.com");
+        employee4.setPhoneNumber("+31 20 456 7890");
+        employee4.setEmployeeType(EmployeeType.REGULAR);
+        employee4.setLocation(Location.AMSTERDAM);
+        employee4.setInEmployment(true);
         employeeService.addEmployee(employee4);
+
+        // Employee 5
+        String salt5 = EmployeeService.generateSalt();
+        String password5 = employeeService.hashPassword("password5", salt5);
+        Employee employee5 = new Employee();
+        employee5.setId(new ObjectId());
+        employee5.setUsername("charlie.williams");
+        employee5.setHashedPassword(password5);
+        employee5.setSalt(salt5);
+        employee5.setFirstName("Charlie");
+        employee5.setLastName("Williams");
+        employee5.setEmail("charliewilliams@example.com");
+        employee5.setPhoneNumber("+31 20 567 8901");
+        employee5.setEmployeeType(EmployeeType.REGULAR);
+        employee5.setLocation(Location.ROTTERDAM);
+        employee5.setInEmployment(false);
         employeeService.addEmployee(employee5);
     }
 
