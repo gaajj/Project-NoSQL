@@ -8,30 +8,7 @@
 
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.chart.PieChart?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles/dashboard.css">
-    <!-- Header -->
-    <top>
-        <HBox spacing="20.0" styleClass="dashboard-header">
-            <Label text="Ticket Management System" styleClass="dashboard-title" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button text="Logout" onAction="#handleLogout" styleClass="dashboard-button" />
-        </HBox>
-    </top>
 
-    <!-- Sidebar -->
-    <left>
-        <VBox spacing="10.0" styleClass="dashboard-sidebar">
-            <Button text="Dashboard" styleClass="sidebar-button" />
-            <Button text="Tickets" styleClass="sidebar-button" />
-            <Button text="Create Ticket" styleClass="sidebar-button" />
-            <Button text="Reports" styleClass="sidebar-button" />
-        </VBox>
-    </left>
-
-    <!-- Main Content -->
-    <center>
-        <Pane fx:id="contentArea" styleClass="dashboard-content">
-            <PieChart fx:id="ticketStatsPieChart" />
-        </Pane>
-    </center>
-</BorderPane>
+<Pane xmlns:fx="http://java.com/fxml/1" fx:id="dashboardContent">
+    <PieChart fx:id="ticketStatsPieChart" />
+</Pane>
