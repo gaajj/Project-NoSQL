@@ -64,7 +64,7 @@ public class EmployeeService {
             }
             return returnEmployee;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            System.err.println("Error in EmployeeService while adding employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -78,7 +78,7 @@ public class EmployeeService {
             }
             return returnEmployee;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            System.err.println("Error in EmployeeService while removing employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -92,7 +92,7 @@ public class EmployeeService {
             }
             return returnEmployee;
         } catch (Exception e) {
-            System.err.println("Error in EmployeeService while fetching employee: " + e.getMessage());
+            System.err.println("Error in EmployeeService while updating employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
