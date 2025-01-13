@@ -36,7 +36,7 @@ public class DashboardController {
         updateTicketStats();
     }
 
-    public void updateTicketStats() {
+    private void updateTicketStats() {
         getTicketData();
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
@@ -47,7 +47,7 @@ public class DashboardController {
         ticketStatsPieChart.setData(pieChartData);
     }
 
-    public void getTicketData() {
+    private void getTicketData() {
         List<Ticket> Tickets = ServiceManager.getInstance().getTicketService().getAllTickets();
 
         for (Ticket ticket : Tickets) {
