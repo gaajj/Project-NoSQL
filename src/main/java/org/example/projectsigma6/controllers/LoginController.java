@@ -33,7 +33,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (validateLogin(username, password)) {
-            mainApp.loadPage("DashboardView.fxml", new DashboardController(mainApp), null);
+            mainApp.showMainView();
         }
     }
 
