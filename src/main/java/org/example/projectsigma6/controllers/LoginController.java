@@ -1,6 +1,7 @@
 package org.example.projectsigma6.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
@@ -14,6 +15,8 @@ public class LoginController {
 
     @FXML
     private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
 
     public LoginController(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -23,16 +26,33 @@ public class LoginController {
     @FXML
     public void handleLogin() {
         String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        Employee loggedInEmployee = employeeService.getEmployeeByUsername(username);
-
-        if (loggedInEmployee != null) {
-            mainApp.setLoggedInEmployee(loggedInEmployee);
-            System.out.println("[*] Logged in as: " + loggedInEmployee.getUsername());
-
+        if (validateLogin(username, password)) {
             mainApp.loadPage("DashboardView.fxml", new DashboardController(mainApp), null);
-        } else {
+        }
+    }
+
+    private boolean validateLogin(String username, String password) {
+        Employee employee = employeeService.getEmployeeByUsername(username);
+
+        if (employee == null) {
             System.out.println("[*] Invalid username.");
+            return false;
+        }
+
+        String storedHash = employee.getHashedPassword();
+        String storedSalt = employee.getSalt();
+
+        String inputHash = employeeService.hashPassword(password, storedSalt);
+
+        if (inputHash.equals(storedHash)) {
+            System.out.println("[*] Login successful for user: " + username);
+            mainApp.setLoggedInEmployee(employee);
+            return true;
+        } else {
+            System.out.println("[*] Invalid password.");
+            return false;
         }
     }
 
