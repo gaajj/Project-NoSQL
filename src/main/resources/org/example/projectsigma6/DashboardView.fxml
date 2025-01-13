@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@dashboard.css">
+<?import javafx.scene.chart.PieChart?>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles/dashboard.css">
     <!-- Header -->
     <top>
         <HBox spacing="20.0" styleClass="dashboard-header">
@@ -29,6 +30,8 @@
 
     <!-- Main Content -->
     <center>
-        <Pane fx:id="contentArea" styleClass="dashboard-content" />
+        <Pane fx:id="contentArea" styleClass="dashboard-content">
+            <PieChart fx:id="ticketStatsPieChart" />
+        </Pane>
     </center>
 </BorderPane>
