@@ -24,7 +24,6 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        displayLoggedInUserInfo();
     }
 
     public void displayLoggedInUserInfo() {

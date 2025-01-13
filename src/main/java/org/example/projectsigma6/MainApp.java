@@ -1,8 +1,11 @@
 package org.example.projectsigma6;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.example.projectsigma6.controllers.LoginController;
 import org.example.projectsigma6.models.Employee;
@@ -22,7 +25,15 @@ public class MainApp extends Application {
         try {
             this.primaryStage = primaryStage;
 
-            loadPage( "Login.fxml", new LoginController(this), "Login");
+            // Load initial login page
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+            LoginController loginController = new LoginController(this);
+            fxmlLoader.setController(loginController);
+
+            Scene loginScene = new Scene(fxmlLoader.load());
+            primaryStage.setScene(loginScene);
+            primaryStage.setTitle("Login");
+            primaryStage.show();
         } catch (Exception e) {
             System.err.println("Failed to start the User Interface: " + e.getMessage());
             e.printStackTrace();
@@ -30,16 +41,21 @@ public class MainApp extends Application {
         }
     }
 
-    public void loadPage(String fxmlFile, Object Controller, String title) {
+    public void loadPage(String fxmlFile, Object controller, Pane contentArea) {
         try {
             System.out.println("[+] Loading " + fxmlFile);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            loader.setController(Controller);
-            Scene scene = new Scene(loader.load());
+            loader.setController(controller);
 
-            primaryStage.setScene(scene);
-            primaryStage.setTitle(title);
-            primaryStage.show();
+            if (contentArea != null) {
+                Node view = loader.load();
+                contentArea.getChildren().clear();
+                contentArea.getChildren().add(view);
+            } else {
+                Scene scene = new Scene(loader.load());
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
         } catch (IOException e) {
             System.err.println("Failed to load page '" + fxmlFile + "': " + e.getMessage());
             e.printStackTrace();

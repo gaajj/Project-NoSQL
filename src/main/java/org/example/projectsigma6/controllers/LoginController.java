@@ -30,7 +30,7 @@ public class LoginController {
             mainApp.setLoggedInEmployee(loggedInEmployee);
             System.out.println("[*] Logged in as: " + loggedInEmployee.getUsername());
 
-            mainApp.loadPage("Dashboard.fxml", new DashboardController(mainApp), "Dashboard");
+            mainApp.loadPage("DashboardView.fxml", new DashboardController(mainApp), null);
         } else {
             System.out.println("[*] Invalid username.");
         }
