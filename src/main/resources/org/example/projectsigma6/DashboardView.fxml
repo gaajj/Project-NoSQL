@@ -14,7 +14,7 @@
         <HBox spacing="20.0" styleClass="dashboard-header">
             <Label text="Ticket Management System" styleClass="dashboard-title" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button text="Logout" styleClass="dashboard-button" />
+            <Button text="Logout" onAction="#handleLogout" styleClass="dashboard-button" />
         </HBox>
     </top>
 

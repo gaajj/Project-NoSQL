@@ -59,4 +59,10 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    public void handleLogout() {
+        mainApp.setLoggedInEmployee(null);
+        mainApp.loadPage("Login.fxml", new LoginController(mainApp), null);
+    }
+
 }
