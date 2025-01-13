@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.example.projectsigma6.controllers.DashboardController;
 import org.example.projectsigma6.controllers.LoginController;
 import org.example.projectsigma6.controllers.MainController;
 import org.example.projectsigma6.models.Employee;
@@ -55,6 +56,8 @@ public class MainApp extends Application {
             primaryStage.setScene(mainScene);
             primaryStage.setTitle("Ticket Management System");
             primaryStage.show();
+
+            show("DashboardView.fxml", new DashboardController(this));
         } catch (Exception e) {
             System.err.println("Failed to load MainView: " + e.getMessage());
             e.printStackTrace();
