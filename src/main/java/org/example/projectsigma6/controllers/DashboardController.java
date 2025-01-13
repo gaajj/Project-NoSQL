@@ -28,7 +28,6 @@ public class DashboardController {
     }
 
     public void displayLoggedInUserInfo() {
-        System.out.println("Logged-in user: " + loggedInEmployee.getUsername());
         loggedInUsernameLabel.setText(loggedInEmployee.getUsername());
         loggedInFullNameLabel.setText(loggedInEmployee.getFirstName() + " " + loggedInEmployee.getLastName());
         loggedInEmailLabel.setText(loggedInEmployee.getEmail());
