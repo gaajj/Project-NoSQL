@@ -1,0 +1,43 @@
+/* General Pane Styling */
+.login-pane {
+    -fx-padding: 20;
+    -fx-alignment: center;
+}
+
+/* Title Styling */
+.login-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Input Field Styling */
+.login-field {
+    -fx-pref-width: 250;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Button Styling */
+.login-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: #0078d4;
+    -fx-text-fill: white;
+    -fx-padding: 10 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #005a9e;
+}
+
+.login-button:pressed {
+    -fx-background-color: #003f73;
+}
