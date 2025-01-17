@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <!-- Title of the form -->
+        <Label text="Add/Edit Ticket" layoutX="200.0" layoutY="20.0"/>
+
+        <!-- Ticket Title -->
+        <Label text="Title" layoutX="50.0" layoutY="60.0"/>
+        <TextField fx:id="titleField" layoutX="150.0" layoutY="60.0" prefWidth="400.0"/>
+
+        <!-- Description -->
+        <Label text="Description" layoutX="50.0" layoutY="100.0"/>
+        <TextArea fx:id="descriptionArea" layoutX="150.0" layoutY="100.0" prefWidth="400.0" prefHeight="100.0"/>
+
+        <!-- Type -->
+        <Label text="Type" layoutX="50.0" layoutY="220.0"/>
+        <ComboBox fx:id="typeComboBox" layoutX="150.0" layoutY="220.0" prefWidth="200.0"/>
+
+        <!-- Priority -->
+        <Label text="Priority" layoutX="50.0" layoutY="300.0"/>
+        <ComboBox fx:id="priorityComboBox" layoutX="150.0" layoutY="300.0" prefWidth="200.0"/>
+
+        <!-- Due Date -->
+        <Label text="Due Date" layoutX="50.0" layoutY="340.0"/>
+        <DatePicker fx:id="dueDatePicker" layoutX="150.0" layoutY="340.0" prefWidth="200.0"/>
+
+        <!-- Assigned to (Employee) -->
+        <Label text="Assigned To" layoutX="50.0" layoutY="380.0"/>
+        <ComboBox fx:id="assignedToComboBox" layoutX="150.0" layoutY="380.0" prefWidth="400.0"/>
+
+        <!-- Buttons: Save and Cancel -->
+        <HBox spacing="10" alignment="center" layoutX="150.0" layoutY="460.0">
+            <Button fx:id="saveButton" text="Save" prefWidth="100.0" />
+            <Button fx:id="cancelButton" text="Cancel" prefWidth="100.0" />
+        </HBox>
+    </children>
+</AnchorPane>

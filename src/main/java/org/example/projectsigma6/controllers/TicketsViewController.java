@@ -5,10 +5,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
@@ -18,6 +22,7 @@ import org.example.projectsigma6.models.enums.TicketType;
 import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +66,6 @@ public class TicketsViewController {
 
     @FXML
     public void initialize() {
-        // Configure cell value factories for simple fields
         columnTitle.setCellValueFactory(param -> {
             String title = param.getValue().getTitle();
             return new SimpleStringProperty(title != null ? title : "No Title");
@@ -83,7 +87,6 @@ public class TicketsViewController {
             return new SimpleStringProperty(dueDate != null ? dueDate.toString() : "N/A");
         });
 
-        // Configure custom cell value factories for Employee fields
         columnCreatedBy.setCellValueFactory(param -> {
             Employee createdBy = param.getValue().getCreatedBy();
             return new SimpleStringProperty(createdBy != null ? createdBy.getFullName() : "N/A");
@@ -94,7 +97,6 @@ public class TicketsViewController {
             return new SimpleStringProperty(assignedTo != null ? assignedTo.getFullName() : "N/A");
         });
 
-        // Load data into the table
         loadTickets();
     }
 
@@ -111,18 +113,14 @@ public class TicketsViewController {
 
     @FXML
     private void handleAddTicket() {
-        // Handle logic to add a ticket
-        System.out.println("[+] Add Ticket button clicked.");
-        // Implement navigation to ticket creation form
+        mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp));
     }
 
     @FXML
     private void handleEditTicket() {
-        // Handle logic to edit a ticket
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
         if (selectedTicket != null) {
-            System.out.println("[+] Edit Ticket: " + selectedTicket.getTitle());
-            // Implement navigation to ticket editing form
+            mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp, selectedTicket));
         } else {
             System.out.println("[!] No ticket selected for editing.");
         }
@@ -130,7 +128,6 @@ public class TicketsViewController {
 
     @FXML
     private void handleDeleteTicket() {
-        // Handle logic to delete a ticket
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
         if (selectedTicket != null) {
             System.out.println("[+] Deleting Ticket: " + selectedTicket.getTitle());
