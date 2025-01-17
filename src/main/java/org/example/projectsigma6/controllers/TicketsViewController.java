@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class TicketsViewController {
 
     @FXML
@@ -101,9 +104,19 @@ public class TicketsViewController {
     }
 
     private void loadTickets() {
+        // Fetch all tickets
         List<Ticket> tickets = ticketService.getAllTickets();
-        ticketList = FXCollections.observableArrayList(tickets);
+
+        // Filter out deleted tickets
+        List<Ticket> activeTickets = tickets.stream()
+                .filter(ticket -> !ticket.isDeleted())
+                .toList();
+
+        // Set the filtered list to the table
+        ticketList = FXCollections.observableArrayList(activeTickets);
         ticketTable.setItems(ticketList);
+
+        // Update ticket count
         updateTotalTicketsLabel();
     }
 
@@ -122,7 +135,7 @@ public class TicketsViewController {
         if (selectedTicket != null) {
             mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp, selectedTicket));
         } else {
-            System.out.println("[!] No ticket selected for editing.");
+            showAlert("No Ticket Selected", "Please select a ticket to edit.");
         }
     }
 
@@ -130,10 +143,19 @@ public class TicketsViewController {
     private void handleDeleteTicket() {
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
         if (selectedTicket != null) {
-            System.out.println("[+] Deleting Ticket: " + selectedTicket.getTitle());
-
+            ticketService.removeTicket(selectedTicket);
+            ticketList.remove(selectedTicket);
+            updateTotalTicketsLabel();
         } else {
-            System.out.println("[!] No ticket selected for deletion.");
+            showAlert("No Ticket Selected", "Please select a ticket to delete.");
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

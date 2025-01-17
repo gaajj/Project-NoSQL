@@ -150,6 +150,8 @@ public class Ticket {
                 ", createdBy=" + createdBy +
                 ", assignedTo=" + assignedTo +
                 ", dueDate=" + dueDate +
+                ", createdAt=" + createdAt +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 
