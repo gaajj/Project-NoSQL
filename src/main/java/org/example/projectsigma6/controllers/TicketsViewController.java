@@ -1,17 +1,10 @@
 package org.example.projectsigma6.controllers;
 
-import com.sun.tools.javac.Main;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
@@ -21,9 +14,9 @@ import org.example.projectsigma6.models.enums.TicketType;
 import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TicketsViewController {
 
@@ -57,6 +50,9 @@ public class TicketsViewController {
     @FXML
     private TextField searchField;
 
+    @FXML
+    private ComboBox<TicketPriority> priorityComboBox;  // ComboBox for priority filter
+
     private ObservableList<Ticket> ticketList;
     private MainApp mainApp;
     private final TicketService ticketService;
@@ -70,46 +66,36 @@ public class TicketsViewController {
 
     @FXML
     public void initialize() {
-        columnTitle.setCellValueFactory(param -> {
-            String title = param.getValue().getTitle();
-            return new SimpleStringProperty(title != null ? title : "No Title");
-        });
-        columnPriority.setCellValueFactory(param -> {
-            TicketPriority priority = param.getValue().getPriority();
-            return new SimpleStringProperty(priority != null ? priority.toString() : "N/A");
-        });
-        columnStatus.setCellValueFactory(param -> {
-            TicketStatus status = param.getValue().getStatus();
-            return new SimpleStringProperty(status != null ? status.toString() : "N/A");
-        });
-        columnType.setCellValueFactory(param -> {
-            TicketType type = param.getValue().getType();
-            return new SimpleStringProperty(type != null ? type.toString() : "N/A");
-        });
-        columnDueDate.setCellValueFactory(param -> {
-            Date dueDate = param.getValue().getDueDate();
-            return new SimpleStringProperty(dueDate != null ? dueDate.toString() : "N/A");
-        });
+        // Initialize columns
+        columnTitle.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getTitle()));
+        columnPriority.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPriority() != null ? param.getValue().getPriority().toString() : "N/A"));
+        columnStatus.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getStatus() != null ? param.getValue().getStatus().toString() : "N/A"));
+        columnType.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType() != null ? param.getValue().getType().toString() : "N/A"));
+        columnDueDate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDueDate() != null ? param.getValue().getDueDate().toString() : "N/A"));
+        columnCreatedBy.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCreatedBy() != null ? param.getValue().getCreatedBy().getFullName() : "N/A"));
+        columnAssignedTo.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAssignedTo() != null ? param.getValue().getAssignedTo().getFullName() : "N/A"));
 
-        columnCreatedBy.setCellValueFactory(param -> {
-            Employee createdBy = param.getValue().getCreatedBy();
-            return new SimpleStringProperty(createdBy != null ? createdBy.getFullName() : "N/A");
-        });
+        // Initialize the priority ComboBox with "Show All" option
+        ObservableList<TicketPriority> priorities = FXCollections.observableArrayList(TicketPriority.values());
+        priorities.add(0, null); // Add null at the start to represent "Show All"
+        priorityComboBox.setItems(priorities);
 
-        columnAssignedTo.setCellValueFactory(param -> {
-            Employee assignedTo = param.getValue().getAssignedTo();
-            return new SimpleStringProperty(assignedTo != null ? assignedTo.getFullName() : "N/A");
-        });
+        // Set default selection to "Show All" (null)
+        priorityComboBox.getSelectionModel().selectFirst();
+
+        // Set an event listener for ComboBox changes
+        priorityComboBox.setOnAction(event -> handleFilterPriority());
 
         // Add the double-click event listener to the ticketTable
         ticketTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Check for double-click
+            if (event.getClickCount() == 2) {
                 openDetailView();
             }
         });
 
         loadTickets();
     }
+
 
     private void openDetailView() {
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
@@ -124,7 +110,7 @@ public class TicketsViewController {
         // Filter out deleted tickets
         List<Ticket> activeTickets = tickets.stream()
                 .filter(ticket -> !ticket.isDeleted())
-                .toList();
+                .collect(Collectors.toList());
 
         // Set the filtered list to the table
         ticketList = FXCollections.observableArrayList(activeTickets);
@@ -139,11 +125,42 @@ public class TicketsViewController {
         String searchText = searchField.getText().trim();
         String searchLogic = "AND";
 
+        // Apply search logic
         List<Ticket> filteredTickets = ticketSearchController.searchTickets(searchText, searchLogic);
+
+        // Apply priority filtering if a priority is selected
+        TicketPriority selectedPriority = priorityComboBox.getSelectionModel().getSelectedItem();
+        filteredTickets = filteredTickets.stream()
+                .filter(ticket -> ticket.getPriority() == selectedPriority)
+                .collect(Collectors.toList());
 
         ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
         updateTotalTicketsLabel();
     }
+
+    @FXML
+    private void handleFilterPriority() {
+        String searchText = searchField.getText().trim();
+        String searchLogic = "AND";
+
+        // Apply search logic
+        List<Ticket> filteredTickets = ticketSearchController.searchTickets(searchText, searchLogic);
+
+        // Get the selected priority from the ComboBox
+        TicketPriority selectedPriority = priorityComboBox.getSelectionModel().getSelectedItem();
+
+        if (selectedPriority != null) {
+            // If a priority is selected, filter by that priority
+            filteredTickets = filteredTickets.stream()
+                    .filter(ticket -> ticket.getPriority() == selectedPriority)
+                    .collect(Collectors.toList());
+        }
+
+        // Update the table view with the filtered list
+        ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
+        updateTotalTicketsLabel();
+    }
+
 
     private void updateTotalTicketsLabel() {
         totalTicketsLabel.setText(String.valueOf(ticketList.size()));
