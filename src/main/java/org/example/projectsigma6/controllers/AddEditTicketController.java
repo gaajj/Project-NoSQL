@@ -3,6 +3,7 @@ package org.example.projectsigma6.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
@@ -113,12 +114,17 @@ public class AddEditTicketController {
             dueDatePicker.setValue(ticket.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
             // Match the assignedToComboBox value with the existing ticket's assignedTo
-            Employee assignedEmployee = employees.stream()
-                    .filter(emp -> emp.getId().equals(ticket.getAssignedTo().getId()))
-                    .findFirst()
-                    .orElse(null);
+            Employee assignedEmployee = ticket.getAssignedTo();
+            if (assignedEmployee != null) {
+                assignedToComboBox.setValue(employees.stream()
+                        .filter(emp -> emp.getId().equals(assignedEmployee.getId()))
+                        .findFirst()
+                        .orElse(null));
+            } else {
+                // If no employee is assigned, set it to null
+                assignedToComboBox.setValue(null);
+            }
 
-            assignedToComboBox.setValue(assignedEmployee);
             addEditLabel.setText("Edit Ticket");
         } else {
             // Set default values for a new ticket
@@ -129,9 +135,14 @@ public class AddEditTicketController {
         // Configure save and cancel button actions
         saveButton.setOnAction(event -> saveTicket());
         cancelButton.setOnAction(event -> cancelEdit());
+
+        // When a new assignment is selected, save the change
+        assignedToComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (ticket != null) {
+                ticket.setAssignedTo(newValue);  // Set the new employee or null
+            }
+        });
     }
-
-
 
     public Date getDateFromDatePicker() {
         LocalDate localDate = dueDatePicker.getValue();
@@ -141,73 +152,63 @@ public class AddEditTicketController {
         return null;
     }
 
-    private void saveTicket() {
-        // Collect input values
-        String title = titleField.getText();
-        String description = descriptionArea.getText();
+    public void saveTicket() {
+        // Ensure the title and description fields are not empty
+        String title = titleField.getText().trim();
+        String description = descriptionArea.getText().trim();
         TicketType type = typeComboBox.getValue();
         TicketPriority priority = priorityComboBox.getValue();
-        Date dueDate = getDateFromDatePicker();
-        Employee assignedTo = assignedToComboBox.getValue();
+        LocalDate dueDate = dueDatePicker.getValue();
 
-        // Validation: Mandatory fields except assignedTo
-        if (title == null || title.isBlank()) {
-            showError("Title is mandatory.");
-            return;
-        }
-        if (description == null || description.isBlank()) {
-            showError("Description is mandatory.");
-            return;
-        }
-        if (type == null) {
-            showError("Ticket type is mandatory.");
-            return;
-        }
-        if (priority == null) {
-            showError("Ticket priority is mandatory.");
-            return;
-        }
-        if (dueDate == null) {
-            showError("Due date is mandatory.");
+        // Validate fields
+        if (title.isEmpty() || description.isEmpty() || type == null || priority == null || dueDate == null) {
+            // Show error message (you can use a dialog or status label)
+            showError("All fields are required!");
             return;
         }
 
+        // Create a new ticket if we're adding a new one, or update the existing one
         if (ticket == null) {
-            // Creating a new ticket
-            Ticket newTicket = new Ticket();
-            newTicket.setId(new ObjectId());
-            newTicket.setTitle(title);
-            newTicket.setDescription(description);
-            newTicket.setType(type);
-            newTicket.setStatus(TicketStatus.OPEN);
-            newTicket.setPriority(priority);
-            newTicket.setDueDate(dueDate);
-            newTicket.setAssignedTo(assignedTo);
-            newTicket.setCreatedAt(new Date());
-            newTicket.setCreatedBy(mainApp.getLoggedInEmployee());
-
-            ticketService.addTicket(newTicket);
-        } else {
-            // Updating an existing ticket
-            ticket.setTitle(title);
-            ticket.setDescription(description);
-            ticket.setType(type);
-            ticket.setPriority(priority);
-            ticket.setDueDate(dueDate);
-            ticket.setAssignedTo(assignedTo);
-
-            ticketService.updateTicket(ticket);
+            // Create a new ticket
+            ticket = new Ticket();
         }
 
-        close();
+        // Update ticket details
+        ticket.setTitle(title);
+        ticket.setDescription(description);
+        ticket.setType(type);
+        ticket.setPriority(priority);
+        ticket.setDueDate(Date.from(dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+        // Set assigned employee if one is selected, or null if none is selected
+        if (assignedToComboBox.getValue() != null) {
+            ticket.setAssignedTo(assignedToComboBox.getValue());
+        } else {
+            ticket.setAssignedTo(null);  // No employee assigned
+        }
+
+        // If the ticket is new, save it to the database or wherever it's being stored
+        if (ticket.getId() == null) {
+            // Save the new ticket (you can call the service to persist it)
+            ServiceManager.getInstance().getTicketService().addTicket(ticket);
+        } else {
+            // Update the existing ticket (assuming the ticket has an ID)
+            ServiceManager.getInstance().getTicketService().updateTicket(ticket);
+        }
+
+        // Optionally, you can display a success message or close the current view
+        showSuccess("Ticket saved successfully!");
+        close();  // Close the current view after saving
     }
 
     private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Validation Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        // Show error message (you can implement this however you'd like, e.g., using an alert or a label)
+        System.out.println("Error: " + message); // Replace with a proper UI message display
+    }
+
+    private void showSuccess(String message) {
+        // Show success message (you can implement this however you'd like)
+        System.out.println("Success: " + message); // Replace with a proper UI message display
     }
 
     private void cancelEdit() {
@@ -218,3 +219,4 @@ public class AddEditTicketController {
         mainApp.show("TicketsView.fxml", new TicketsViewController(mainApp));
     }
 }
+
