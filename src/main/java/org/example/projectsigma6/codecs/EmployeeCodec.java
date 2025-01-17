@@ -1,6 +1,7 @@
 package org.example.projectsigma6.codecs;
 
 import org.bson.BsonReader;
+import org.bson.BsonType;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.types.ObjectId;
@@ -33,19 +34,61 @@ public class EmployeeCodec implements Codec<Employee> {
     }
 
     public Employee decodeEmbedded(BsonReader reader) {
+        ObjectId id = null;
+        String username = null;
+        String lastName = null;
+        String firstName = null;
+        String email = null;
+        String phoneNumber = null;
+        EmployeeType employeeType = null;
+        Location location = null;
+        boolean inEmployment = false;
+
         reader.readStartDocument();
-        ObjectId id = new ObjectId(reader.readString("_id"));
-        String username = reader.readString("username");
-        String firstName = reader.readString("firstName");
-        String lastName = reader.readString("lastName");
-        String email = reader.readString("email");
-        String phoneNumber = reader.readString("phoneNumber");
-        String employeeTypeString = reader.readString("employeeType"); // String
-        EmployeeType employeeType = EmployeeType.valueOf(employeeTypeString); // String->Enum
-        String locationString = reader.readString("location"); // String
-        Location location = Location.valueOf(locationString); // String->Enum
-        boolean inEmployment = reader.readBoolean("inEmployment");
+        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            String fieldName = reader.readName();
+            switch (fieldName) {
+                case "_id":
+                    id = new ObjectId(reader.readString());
+                    break;
+                case "username":
+                    username = reader.readString();
+                    break;
+                case "lastName":
+                    lastName = reader.readString();
+                    break;
+                case "firstName":
+                    firstName = reader.readString();
+                    break;
+                case "email":
+                    email = reader.readString();
+                    break;
+                case "phoneNumber":
+                    phoneNumber = reader.readString();
+                    break;
+                case "employeeType":
+                    String employeeTypeString = reader.readString();
+                    employeeType = EmployeeType.valueOf(employeeTypeString);
+                    break;
+                case "location":
+                    String locationString = reader.readString();
+                    location = Location.valueOf(locationString);
+                    break;
+                case "inEmployment":
+                    inEmployment = reader.readBoolean();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
         reader.readEndDocument();
+
+        if (id == null || username == null || firstName == null || lastName == null || email == null ||
+                phoneNumber == null || employeeType == null || location == null) {
+            throw new IllegalStateException("Missing required fields for Employee object");
+        }
+
         return new Employee(id, username, firstName, lastName, email, phoneNumber, employeeType, location, inEmployment);
     }
 
