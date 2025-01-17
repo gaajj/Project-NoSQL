@@ -39,4 +39,16 @@ public class MainController {
         mainApp.show("TicketsView.fxml", new TicketsViewController(mainApp));
     }
 
+    @FXML
+    public void showAddTicket() {
+        System.out.println("[+] Add Ticket");
+        mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp));
+    }
+
+    @FXML
+    public void showEmployeesView() {
+        System.out.println("[+] Employees");
+        mainApp.show("EmployeesView.fxml", new EmployeesViewController(mainApp));
+    }
+
 }
