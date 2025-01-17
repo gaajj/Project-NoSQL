@@ -104,7 +104,7 @@ public class TicketViewController {
         }
 
         ticket.setAssignedTo(assignedToComboBox.getValue());
-        ticket.setStatus(TicketStatus.valueOf(statusComboBox.getValue().toString().toUpperCase()));
+        ticket.setStatus(statusComboBox.getValue());
         ticket.setDueDate(Date.from(dueDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         ticketService.updateTicket(ticket);
