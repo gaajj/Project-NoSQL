@@ -11,8 +11,8 @@
 <StackPane prefHeight="300.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles/login.css">
     <VBox alignment="CENTER" spacing="20.0" styleClass="login-pane">
         <Label text="Login" styleClass="login-title" />
-        <TextField fx:id="usernameField" promptText="Username" text="jan.de.molen" styleClass="login-field" />
-        <PasswordField fx:id="passwordField" promptText="Password" text="password123" styleClass="login-field" />
+        <TextField fx:id="usernameField" promptText="Username" styleClass="login-field" />
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="login-field" />
         <Button text="Login" onAction="#handleLogin" styleClass="login-button" />
         <Label fx:id="errorLabel" styleClass="login-error" visible="false" textFill="red" />
     </VBox>
