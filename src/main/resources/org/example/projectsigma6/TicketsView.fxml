@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Header -->
+    <top>
+        <HBox spacing="20.0" styleClass="ticket-header">
+            <Label text="Ticket Overview" styleClass="header-title" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Add Ticket" onAction="#handleAddTicket" styleClass="header-button" />
+            <Button text="Edit Ticket" onAction="#handleEditTicket" styleClass="header-button" />
+            <Button text="Delete Ticket" onAction="#handleDeleteTicket" styleClass="header-button" />
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <TableView fx:id="ticketTable">
+            <columns>
+                <TableColumn fx:id="columnTitle" text="Title" />
+                <TableColumn fx:id="columnPriority" text="Priority" />
+                <TableColumn fx:id="columnStatus" text="Status" />
+                <TableColumn fx:id="columnType" text="Type" />
+                <TableColumn fx:id="columnCreatedBy" text="Created By" />
+                <TableColumn fx:id="columnAssignedTo" text="Assigned To" />
+                <TableColumn fx:id="columnDueDate" text="Due Date" />
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+            <Label text="Total Tickets: " />
+            <Label fx:id="totalTicketsLabel" text="0" />
+        </HBox>
+    </bottom>
+</BorderPane>

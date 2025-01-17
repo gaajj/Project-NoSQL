@@ -33,4 +33,10 @@ public class MainController {
         mainApp.show("DashboardView.fxml", new DashboardController(mainApp));
     }
 
+    @FXML
+    public void showTicketsView() {
+        System.out.println("[+] Tickets");
+        mainApp.show("TicketsView.fxml", new TicketsViewController(mainApp));
+    }
+
 }
