@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,9 +27,6 @@ import org.example.projectsigma6.services.TicketService;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class TicketsViewController {
 
@@ -100,6 +99,13 @@ public class TicketsViewController {
             return new SimpleStringProperty(assignedTo != null ? assignedTo.getFullName() : "N/A");
         });
 
+        // Add the double-click event listener to the ticketTable
+        ticketTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Check for double-click
+                handleEditTicket();
+            }
+        });
+
         loadTickets();
     }
 
@@ -133,9 +139,9 @@ public class TicketsViewController {
     private void handleEditTicket() {
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
         if (selectedTicket != null) {
-            mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp, selectedTicket));
+            mainApp.show("TicketView.fxml", new TicketViewController(mainApp, selectedTicket));
         } else {
-            showAlert("No Ticket Selected", "Please select a ticket to edit.");
+            showAlert("No Ticket Selected", "Please select a ticket to view/edit.");
         }
     }
 
