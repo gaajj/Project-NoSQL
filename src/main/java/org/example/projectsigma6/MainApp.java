@@ -88,15 +88,9 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             loader.setController(controller);
 
-            if (contentArea != null) {
-                Node view = loader.load();
-                contentArea.getChildren().clear();
-                contentArea.getChildren().add(view);
-            } else {
-                Scene scene = new Scene(loader.load());
-                primaryStage.setScene(scene);
-                primaryStage.show();
-            }
+            Scene scene = new Scene(loader.load());
+            primaryStage.setScene(scene);
+            primaryStage.show();
         } catch (IOException e) {
             System.err.println("Failed to load page '" + fxmlFile + "': " + e.getMessage());
             e.printStackTrace();
