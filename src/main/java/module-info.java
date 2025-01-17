@@ -5,6 +5,7 @@ module example.projectsigma6 {
     requires java.xml;
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
+    requires jdk.compiler;
 
 
     opens org.example.projectsigma6 to javafx.fxml;

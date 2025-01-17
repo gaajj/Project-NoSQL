@@ -99,6 +99,10 @@ public class Employee {
         this.salt = salt;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getFirstName() {
         return firstName;
     }

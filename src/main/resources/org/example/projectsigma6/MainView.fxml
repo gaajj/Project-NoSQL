@@ -21,7 +21,7 @@
     <left>
         <VBox spacing="10.0" styleClass="dashboard-sidebar">
             <Button text="Dashboard" onAction="#showDashboard" styleClass="sidebar-button" />
-            <Button text="Tickets" styleClass="sidebar-button" />
+            <Button text="Tickets" onAction="#showTicketsView" styleClass="sidebar-button" />
             <Button text="Create Ticket" styleClass="sidebar-button" />
             <Button text="Reports" styleClass="sidebar-button" />
         </VBox>
