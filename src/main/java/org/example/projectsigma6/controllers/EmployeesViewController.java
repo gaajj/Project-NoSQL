@@ -71,21 +71,16 @@ public class EmployeesViewController {
     }
 
     private void loadEmployees() {
-        // Get all employees
         List<Employee> employees = employeeService.getAllEmployees();
 
-        // Filter employees who are in employment
         employees = employees.stream()
-                .filter(Employee::isInEmployment)  // assuming `getInEmployment()` returns a boolean
+                .filter(Employee::isInEmployment)
                 .collect(Collectors.toList());
 
-        // Convert the filtered list to an ObservableList
         employeeList = FXCollections.observableArrayList(employees);
 
-        // Set the filtered list in the TableView
         employeeTable.setItems(employeeList);
 
-        // Update the total number of employees in employment
         updateTotalEmployeesLabel();
     }
 

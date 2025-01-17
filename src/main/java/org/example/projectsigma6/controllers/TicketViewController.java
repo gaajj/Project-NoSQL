@@ -51,18 +51,15 @@ public class TicketViewController {
 
     @FXML
     private void initialize() {
-        // Populate fields with ticket data
         titleField.setText(ticket.getTitle());
         descriptionField.setText(ticket.getDescription());
         typeField.setText(ticket.getType().toString());
         priorityField.setText(ticket.getPriority().toString());
         createdByField.setText(ticket.getCreatedBy().getFullName());
 
-        // Populate ComboBoxes
         assignedToComboBox.setItems(FXCollections.observableArrayList(employeeService.getAllEmployees()));
         statusComboBox.setItems(FXCollections.observableArrayList(TicketStatus.values()));
 
-        // Set the StringConverter for the TicketStatus ComboBox
         statusComboBox.setConverter(new StringConverter<TicketStatus>() {
             @Override
             public String toString(TicketStatus status) {
@@ -79,14 +76,12 @@ public class TicketViewController {
         dueDatePicker.setValue(ticket.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         statusComboBox.setValue(ticket.getStatus());
 
-        // Prevent editing of non-editable fields
         titleField.setEditable(false);
         descriptionField.setEditable(false);
         typeField.setEditable(false);
         priorityField.setEditable(false);
         createdByField.setEditable(false);
 
-        // Set StringConverter for Employee ComboBox to display employee names
         assignedToComboBox.setConverter(new StringConverter<Employee>() {
             @Override
             public String toString(Employee employee) {
@@ -102,19 +97,16 @@ public class TicketViewController {
 
     @FXML
     private void handleSave() {
-        // Validate fields
         if (assignedToComboBox.getValue() == null || statusComboBox.getValue() == null || dueDatePicker.getValue() == null) {
             errorLabel.setText("Please fill in all required fields.");
             errorLabel.setVisible(true);
             return;
         }
 
-        // Set the updated values to the ticket
         ticket.setAssignedTo(assignedToComboBox.getValue());
         ticket.setStatus(TicketStatus.valueOf(statusComboBox.getValue().toString().toUpperCase()));
         ticket.setDueDate(Date.from(dueDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-        // Save the changes
         ticketService.updateTicket(ticket);
         close();
     }
