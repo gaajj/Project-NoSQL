@@ -9,6 +9,7 @@
         <HBox spacing="20.0" styleClass="ticket-header">
             <Label text="Ticket Overview" styleClass="header-title" />
             <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="Enter search..." onAction="#handleSearch" />
             <Button text="Add Ticket" onAction="#handleAddTicket" styleClass="header-button" />
             <Button text="Edit Ticket" onAction="#handleEditTicket" styleClass="header-button" />
             <Button text="Delete Ticket" onAction="#handleDeleteTicket" styleClass="header-button" />

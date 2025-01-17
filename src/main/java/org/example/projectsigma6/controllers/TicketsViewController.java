@@ -8,11 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.projectsigma6.MainApp;
@@ -57,13 +54,18 @@ public class TicketsViewController {
     @FXML
     private Label totalTicketsLabel;
 
+    @FXML
+    private TextField searchField;
+
     private ObservableList<Ticket> ticketList;
     private MainApp mainApp;
     private final TicketService ticketService;
+    private final TicketSearchController ticketSearchController;
 
     public TicketsViewController(MainApp mainApp) {
         this.mainApp = mainApp;
         this.ticketService = ServiceManager.getInstance().getTicketService();
+        this.ticketSearchController = new TicketSearchController();
     }
 
     @FXML
@@ -112,6 +114,7 @@ public class TicketsViewController {
     private void loadTickets() {
         // Fetch all tickets
         List<Ticket> tickets = ticketService.getAllTickets();
+        ticketSearchController.setTickets(tickets);
 
         // Filter out deleted tickets
         List<Ticket> activeTickets = tickets.stream()
@@ -123,6 +126,17 @@ public class TicketsViewController {
         ticketTable.setItems(ticketList);
 
         // Update ticket count
+        updateTotalTicketsLabel();
+    }
+
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().trim();
+        String searchLogic = "AND";
+
+        List<Ticket> filteredTickets = ticketSearchController.searchTickets(searchText, searchLogic);
+
+        ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
         updateTotalTicketsLabel();
     }
 
