@@ -8,11 +8,7 @@ import org.bson.codecs.EncoderContext;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
-import org.example.projectsigma6.models.enums.TicketPriority;
-import org.example.projectsigma6.models.enums.TicketStatus;
-import org.example.projectsigma6.models.enums.TicketType;
-import org.example.projectsigma6.services.EmployeeService;
-import org.example.projectsigma6.services.ServiceManager;
+import org.example.projectsigma6.models.enums.*;
 
 import java.util.Date;
 
@@ -34,9 +30,9 @@ public class TicketCodec implements Codec<Ticket> {
         String priorityString = reader.readString("priority"); // String
         TicketPriority priority = TicketPriority.valueOf(priorityString); // String -> Enum
         reader.readName("createdBy");
-        Employee createdBy = employeeCodec.decode(reader, decoderContext);
+        Employee createdBy = employeeCodec.decodeEmbedded(reader);
         reader.readName("assignedTo");
-        Employee assignedTo = employeeCodec.decode(reader, decoderContext);
+        Employee assignedTo = employeeCodec.decodeEmbedded(reader);
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
         boolean isDeleted = reader.readBoolean("isDeleted");
 
@@ -55,9 +51,9 @@ public class TicketCodec implements Codec<Ticket> {
         writer.writeString("status", ticket.getStatus().name()); // Enum -> String
         writer.writeString("priority", ticket.getPriority().name()); // Enum -> String
         writer.writeName("createdBy");
-        employeeCodec.encode(writer, ticket.getCreatedBy(), encoderContext);
+        employeeCodec.encodeEmbedded(writer, ticket.getCreatedBy());
         writer.writeName("assignedTo");
-        employeeCodec.encode(writer, ticket.getAssignedTo(), encoderContext);
+        employeeCodec.encodeEmbedded(writer, ticket.getAssignedTo());
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
         writer.writeBoolean("isDeleted", ticket.isDeleted());
 

@@ -49,6 +49,28 @@ public class Employee {
         this.inEmployment = inEmployment;
     }
 
+    // For embedded Employee in Ticket
+    @BsonCreator
+    public Employee(@BsonProperty("_id") ObjectId id,
+                    @BsonProperty("username") String username,
+                    @BsonProperty("firstName") String firstName,
+                    @BsonProperty("lastName") String lastName,
+                    @BsonProperty("email") String email,
+                    @BsonProperty("phoneNumber") String phoneNumber,
+                    @BsonProperty("employeeType") EmployeeType employeeType,
+                    @BsonProperty("location") Location location,
+                    @BsonProperty("inEmployment") boolean inEmployment) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.employeeType = employeeType;
+        this.location = location;
+        this.inEmployment = inEmployment;
+    }
+
     public ObjectId getId() {
         return id;
     }
