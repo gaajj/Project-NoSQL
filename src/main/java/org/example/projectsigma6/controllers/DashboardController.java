@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
+import org.example.projectsigma6.models.enums.EmployeeType;
 import org.example.projectsigma6.models.enums.TicketStatus;
 import org.example.projectsigma6.services.ServiceManager;
 
@@ -18,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +76,12 @@ public class DashboardController {
     }
 
     private void getTicketData() {
-        List<Ticket> Tickets = ServiceManager.getInstance().getTicketService().getTicketsByEmployee(loggedInEmployee);
+        List<Ticket> tickets = new ArrayList<>();
+        if (loggedInEmployee.getEmployeeType() == EmployeeType.REGULAR) {
+            tickets = ServiceManager.getInstance().getTicketService().getTicketsByEmployee(loggedInEmployee);
+        } else {
+            tickets = ServiceManager.getInstance().getTicketService().getAllTickets();
+        }
 
         openTickets = 0;
         closedTickets = 0;
@@ -85,7 +92,7 @@ public class DashboardController {
 
         Date today = new Date();
 
-        for (Ticket ticket : Tickets) {
+        for (Ticket ticket : tickets) {
             switch (ticket.getStatus()) {
                 case TicketStatus.OPEN -> openTickets++;
                 case TicketStatus.CLOSED -> closedTickets++;
