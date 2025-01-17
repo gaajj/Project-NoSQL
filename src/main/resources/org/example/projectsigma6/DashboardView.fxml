@@ -9,6 +9,10 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.chart.PieChart?>
 
+<?import javafx.geometry.Insets?>
 <Pane xmlns:fx="http://java.com/fxml/1" fx:id="dashboardContent">
-    <PieChart fx:id="ticketStatsPieChart" />
+    <GridPane hgap="20.0" vgap="20.0" layoutX="10" layoutY="10" fx:id="gridPane">
+        <PieChart fx:id="ticketStatsPieChart" GridPane.columnIndex="0" GridPane.rowIndex="0" title="Ticket Status" />
+        <PieChart fx:id="ticketDuePieChart" GridPane.columnIndex="1" GridPane.rowIndex="0" title="Ticket Due Dates" />
+    </GridPane>
 </Pane>
