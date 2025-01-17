@@ -1,15 +1,22 @@
 package org.example.projectsigma6.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.example.projectsigma6.MainApp;
+import org.example.projectsigma6.models.Employee;
+import org.example.projectsigma6.models.enums.EmployeeType;
 
 public class MainController {
 
     private MainApp mainApp;
+    private Employee loggedInEmployee;
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private Button employeesButton;
 
     public MainController(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -18,6 +25,11 @@ public class MainController {
     @FXML
     public void initialize() {
         usernameLabel.setText(mainApp.getLoggedInEmployee().getUsername());
+        this.loggedInEmployee = mainApp.getLoggedInEmployee();
+
+        if (loggedInEmployee.getEmployeeType() == EmployeeType.REGULAR) {
+            employeesButton.setVisible(false);
+        }
     }
 
     @FXML
