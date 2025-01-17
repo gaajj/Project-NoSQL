@@ -104,11 +104,16 @@ public class TicketsViewController {
         // Add the double-click event listener to the ticketTable
         ticketTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Check for double-click
-                handleEditTicket();
+                openDetailView();
             }
         });
 
         loadTickets();
+    }
+
+    private void openDetailView() {
+        Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
+        mainApp.show("TicketView.fxml", new TicketViewController(mainApp, selectedTicket));
     }
 
     private void loadTickets() {
@@ -153,7 +158,7 @@ public class TicketsViewController {
     private void handleEditTicket() {
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
         if (selectedTicket != null) {
-            mainApp.show("TicketView.fxml", new TicketViewController(mainApp, selectedTicket));
+            mainApp.show("AddEditTicketView.fxml", new AddEditTicketController(mainApp, selectedTicket));
         } else {
             showAlert("No Ticket Selected", "Please select a ticket to view/edit.");
         }
