@@ -91,8 +91,12 @@ public class TicketDao extends BaseDao<Ticket> {
             if (!existingTicket.getCreatedBy().equals(ticket.getCreatedBy())) {
                 updates.add(Updates.set("createdBy", ticket.getCreatedBy()));
             }
-            if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
-                updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
+            if (existingTicket.getAssignedTo() != null) {
+                if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
+                    updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
+                }
+            } else {
+                updates.add(Updates.set("assignedTo", null));
             }
             if (!existingTicket.getCreatedAt().equals(ticket.getCreatedAt())) {
                 updates.add(Updates.set("createdAt", ticket.getCreatedAt()));

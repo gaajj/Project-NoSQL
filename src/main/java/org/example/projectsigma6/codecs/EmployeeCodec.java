@@ -98,8 +98,16 @@ public class EmployeeCodec implements Codec<Employee> {
 
         writer.writeString("_id", employee.getId().toString());
         writer.writeString("username", employee.getUsername());
-        writer.writeString("hashedPassword", employee.getHashedPassword());
-        writer.writeString("salt", employee.getSalt());
+        if (employee.getHashedPassword() != null) {
+            writer.writeString("hashedPassword", employee.getHashedPassword());
+        } else {
+            writer.writeNull("hashedPassword");
+        }
+        if (employee.getSalt() != null) {
+            writer.writeString("salt", employee.getSalt());
+        } else {
+            writer.writeNull("salt");
+        }
         writer.writeString("firstName", employee.getFirstName());
         writer.writeString("lastName", employee.getLastName());
         writer.writeString("email", employee.getEmail());
