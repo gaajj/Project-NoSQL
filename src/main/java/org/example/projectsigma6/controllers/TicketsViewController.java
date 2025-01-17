@@ -8,17 +8,21 @@ import javafx.scene.control.*;
 import org.example.projectsigma6.MainApp;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
+import org.example.projectsigma6.models.enums.EmployeeType;
 import org.example.projectsigma6.models.enums.TicketPriority;
 import org.example.projectsigma6.models.enums.TicketStatus;
 import org.example.projectsigma6.models.enums.TicketType;
 import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TicketsViewController {
+
+    private Employee loggedInEmployee;
 
     @FXML
     private TableView<Ticket> ticketTable;
@@ -51,6 +55,11 @@ public class TicketsViewController {
     private TextField searchField;
 
     @FXML
+    private Button editTicketButton;
+    @FXML
+    private Button deleteTicketButton;
+
+    @FXML
     private ComboBox<TicketPriority> priorityComboBox;  // ComboBox for priority filter
 
     private ObservableList<Ticket> ticketList;
@@ -66,6 +75,32 @@ public class TicketsViewController {
 
     @FXML
     public void initialize() {
+        this.loggedInEmployee = mainApp.getLoggedInEmployee();
+        if (loggedInEmployee.getEmployeeType() == EmployeeType.REGULAR) {
+            editTicketButton.setVisible(false);
+            deleteTicketButton.setVisible(false);
+        }
+
+        columnTitle.setCellValueFactory(param -> {
+            String title = param.getValue().getTitle();
+            return new SimpleStringProperty(title != null ? title : "No Title");
+        });
+        columnPriority.setCellValueFactory(param -> {
+            TicketPriority priority = param.getValue().getPriority();
+            return new SimpleStringProperty(priority != null ? priority.toString() : "N/A");
+        });
+        columnStatus.setCellValueFactory(param -> {
+            TicketStatus status = param.getValue().getStatus();
+            return new SimpleStringProperty(status != null ? status.toString() : "N/A");
+        });
+        columnType.setCellValueFactory(param -> {
+            TicketType type = param.getValue().getType();
+            return new SimpleStringProperty(type != null ? type.toString() : "N/A");
+        });
+        columnDueDate.setCellValueFactory(param -> {
+            Date dueDate = param.getValue().getDueDate();
+            return new SimpleStringProperty(dueDate != null ? dueDate.toString() : "N/A");
+        });
         // Initialize columns
         columnTitle.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getTitle()));
         columnPriority.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPriority() != null ? param.getValue().getPriority().toString() : "N/A"));
@@ -95,7 +130,6 @@ public class TicketsViewController {
 
         loadTickets();
     }
-
 
     private void openDetailView() {
         Ticket selectedTicket = ticketTable.getSelectionModel().getSelectedItem();
@@ -130,9 +164,11 @@ public class TicketsViewController {
 
         // Apply priority filtering if a priority is selected
         TicketPriority selectedPriority = priorityComboBox.getSelectionModel().getSelectedItem();
-        filteredTickets = filteredTickets.stream()
-                .filter(ticket -> ticket.getPriority() == selectedPriority)
-                .collect(Collectors.toList());
+        if (selectedPriority != null) {
+            filteredTickets = filteredTickets.stream()
+                    .filter(ticket -> ticket.getPriority() == selectedPriority)
+                    .collect(Collectors.toList());
+        }
 
         ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
         updateTotalTicketsLabel();
@@ -160,7 +196,6 @@ public class TicketsViewController {
         ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
         updateTotalTicketsLabel();
     }
-
 
     private void updateTotalTicketsLabel() {
         totalTicketsLabel.setText(String.valueOf(ticketList.size()));
