@@ -21,7 +21,7 @@ public class ExampleTicket {
     public static void main(String[] args) {
         ticketService = ServiceManager.getInstance().getTicketService();
         employeeService = ServiceManager.getInstance().getEmployeeService();
-
+        exampleAdd3Tickets();
     }
 
     public static void exampleGetTicketById() {
@@ -71,16 +71,8 @@ public class ExampleTicket {
 
     public static void exampleAdd3Tickets() {
         // Ticket 1
-        Employee createdBy1 = new Employee(
-                new ObjectId(), "alice.smith", "hashedPassword1", "salt1", "Alice", "Smith",
-                "alice.smith@example.com", "+31 20 111 2222", EmployeeType.REGULAR,
-                Location.UTRECHT, true
-        );
-        Employee assignedTo1 = new Employee(
-                new ObjectId(), "bob.brown", "hashedPassword2", "salt2", "Bob", "Brown",
-                "bob.brown@example.com", "+31 20 333 4444", EmployeeType.REGULAR,
-                Location.ROTTERDAM, true
-        );
+        Employee createdBy1 = employeeService.getEmployeeByUsername("jane.smith");
+        Employee assignedTo1 = employeeService.getEmployeeByUsername("john.doe");
 
         Ticket ticket1 = new Ticket(
                 new ObjectId(),                       // _id for ticket
@@ -96,16 +88,8 @@ public class ExampleTicket {
         );
 
         // Ticket 2
-        Employee createdBy2 = new Employee(
-                new ObjectId(), "john.doe", "hashedPassword2", "salt2", "John", "Doe",
-                "john.doe@example.com", "+31 20 444 5555", EmployeeType.REGULAR,
-                Location.AMSTERDAM, true
-        );
-        Employee assignedTo2 = new Employee(
-                new ObjectId(), "jane.doe", "hashedPassword3", "salt3", "Jane", "Doe",
-                "jane.doe@example.com", "+31 20 666 7777", EmployeeType.REGULAR,
-                Location.UTRECHT, true
-        );
+        Employee createdBy2 = employeeService.getEmployeeByUsername("bob.brown");
+        Employee assignedTo2 = employeeService.getEmployeeByUsername("jane.smith");
 
         Ticket ticket2 = new Ticket(
                 new ObjectId(),                              // _id for ticket
@@ -121,16 +105,8 @@ public class ExampleTicket {
         );
 
         // Ticket 3
-        Employee createdBy3 = new Employee(
-                new ObjectId(), "susan.miller", "hashedPassword4", "salt4", "Susan", "Miller",
-                "susan.miller@example.com", "+31 20 777 8888", EmployeeType.REGULAR,
-                Location.ROTTERDAM, true
-        );
-        Employee assignedTo3 = new Employee(
-                new ObjectId(), "steve.jones", "hashedPassword5", "salt5", "Steve", "Jones",
-                "steve.jones@example.com", "+31 20 999 0000", EmployeeType.SERVICEDESK,
-                Location.AMSTERDAM, true
-        );
+        Employee createdBy3 = employeeService.getEmployeeByUsername("alice.johnson");
+        Employee assignedTo3 = employeeService.getEmployeeByUsername("bob.brown");
 
         Ticket ticket3 = new Ticket(
                 new ObjectId(),                       // _id for ticket

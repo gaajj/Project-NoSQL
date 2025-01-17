@@ -1,6 +1,7 @@
 package org.example.projectsigma6.codecs;
 
 import org.bson.BsonReader;
+import org.bson.BsonType;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
@@ -32,7 +33,12 @@ public class TicketCodec implements Codec<Ticket> {
         reader.readName("createdBy");
         Employee createdBy = employeeCodec.decodeEmbedded(reader);
         reader.readName("assignedTo");
-        Employee assignedTo = employeeCodec.decodeEmbedded(reader);
+        Employee assignedTo = null;
+        if (reader.getCurrentBsonType() != BsonType.NULL) {
+            assignedTo = employeeCodec.decodeEmbedded(reader);
+        } else {
+            reader.readNull();
+        }
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
         boolean isDeleted = reader.readBoolean("isDeleted");
 
@@ -53,7 +59,7 @@ public class TicketCodec implements Codec<Ticket> {
         writer.writeName("createdBy");
         employeeCodec.encodeEmbedded(writer, ticket.getCreatedBy());
         writer.writeName("assignedTo");
-        employeeCodec.encodeEmbedded(writer, ticket.getAssignedTo());
+            employeeCodec.encodeEmbedded(writer, ticket.getAssignedTo());
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
         writer.writeBoolean("isDeleted", ticket.isDeleted());
 
