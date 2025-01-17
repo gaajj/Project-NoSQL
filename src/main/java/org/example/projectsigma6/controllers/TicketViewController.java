@@ -82,7 +82,7 @@ public class TicketViewController {
 
             @Override
             public Employee fromString(String string) {
-                return null; // No need to convert from String
+                return null;
             }
         });
     }
@@ -98,21 +98,20 @@ public class TicketViewController {
 
         // Set the updated values to the ticket
         ticket.setAssignedTo(assignedToComboBox.getValue());
-        ticket.setStatus(statusComboBox.getValue());
+        ticket.setStatus(TicketStatus.valueOf(statusComboBox.getValue().toString().toUpperCase()));
         ticket.setDueDate(Date.from(dueDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         // Save the changes
         ticketService.updateTicket(ticket);
-
-        // Close the view or show success message (depending on your application)
-        // For example, you could call a method from the MainApp to close this view
-        errorLabel.setText("Ticket updated successfully.");
-        errorLabel.setVisible(true);
+        close();
     }
 
     @FXML
     private void handleCancel() {
-        // Close the view without saving changes
-        // For example, you could call a method from the MainApp to close this view
+        close();
+    }
+
+    private void close() {
+        mainApp.show("TicketsView.fxml", new TicketsViewController(mainApp));
     }
 }
