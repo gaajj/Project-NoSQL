@@ -61,7 +61,7 @@ public class TicketsViewController {
     private Button deleteTicketButton;
 
     @FXML
-    private ComboBox<TicketPriority> priorityComboBox;  // ComboBox for priority filter
+    private ComboBox<TicketPriority> priorityComboBox;
 
     private ObservableList<Ticket> ticketList;
     private MainApp mainApp;
@@ -111,18 +111,14 @@ public class TicketsViewController {
         columnCreatedBy.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCreatedBy() != null ? param.getValue().getCreatedBy().getFullName() : "N/A"));
         columnAssignedTo.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAssignedTo() != null ? param.getValue().getAssignedTo().getFullName() : "N/A"));
 
-        // Initialize the priority ComboBox with "Show All" option
         ObservableList<TicketPriority> priorities = FXCollections.observableArrayList(TicketPriority.values());
-        priorities.add(0, null); // Add null at the start to represent "Show All"
+        priorities.add(0, null);
         priorityComboBox.setItems(priorities);
 
-        // Set default selection to "Show All" (null)
         priorityComboBox.getSelectionModel().selectFirst();
 
-        // Set an event listener for ComboBox changes
         priorityComboBox.setOnAction(event -> handleFilterPriority());
 
-        // Add the double-click event listener to the ticketTable
         ticketTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 openDetailView();
@@ -138,7 +134,6 @@ public class TicketsViewController {
     }
 
     private void loadTickets() {
-        // Fetch all tickets
         List<Ticket> tickets = new ArrayList<>();
         if (loggedInEmployee.getEmployeeType() == EmployeeType.REGULAR) {
             tickets = ServiceManager.getInstance().getTicketService().getTicketsByEmployee(loggedInEmployee);
@@ -147,16 +142,13 @@ public class TicketsViewController {
         }
         ticketSearchController.setTickets(tickets);
 
-        // Filter out deleted tickets
         List<Ticket> activeTickets = tickets.stream()
                 .filter(ticket -> !ticket.isDeleted())
                 .collect(Collectors.toList());
 
-        // Set the filtered list to the table
         ticketList = FXCollections.observableArrayList(activeTickets);
         ticketTable.setItems(ticketList);
 
-        // Update ticket count
         updateTotalTicketsLabel();
     }
 
@@ -165,10 +157,8 @@ public class TicketsViewController {
         String searchText = searchField.getText().trim();
         String searchLogic = "AND";
 
-        // Apply search logic
         List<Ticket> filteredTickets = ticketSearchController.searchTickets(searchText, searchLogic);
 
-        // Apply priority filtering if a priority is selected
         TicketPriority selectedPriority = priorityComboBox.getSelectionModel().getSelectedItem();
         if (selectedPriority != null) {
             filteredTickets = filteredTickets.stream()
@@ -185,20 +175,16 @@ public class TicketsViewController {
         String searchText = searchField.getText().trim();
         String searchLogic = "AND";
 
-        // Apply search logic
         List<Ticket> filteredTickets = ticketSearchController.searchTickets(searchText, searchLogic);
 
-        // Get the selected priority from the ComboBox
         TicketPriority selectedPriority = priorityComboBox.getSelectionModel().getSelectedItem();
 
         if (selectedPriority != null) {
-            // If a priority is selected, filter by that priority
             filteredTickets = filteredTickets.stream()
                     .filter(ticket -> ticket.getPriority() == selectedPriority)
                     .collect(Collectors.toList());
         }
 
-        // Update the table view with the filtered list
         ticketTable.setItems(FXCollections.observableArrayList(filteredTickets));
         updateTotalTicketsLabel();
     }

@@ -48,11 +48,10 @@ public class AddEditEmployeeController {
 
     @FXML
     public void initialize() {
-        // Populate the employee type and location ComboBoxes
+
         employeeTypeComboBox.getItems().setAll(EmployeeType.values());
         locationComboBox.getItems().setAll(Location.values());
 
-        // If editing an existing employee, populate fields with employee data
         if (employee != null) {
             usernameField.setText(employee.getUsername());
             firstNameField.setText(employee.getFirstName());
@@ -64,25 +63,20 @@ public class AddEditEmployeeController {
 
             addEditLabel.setText("Edit Employee");
 
-            // Show password explanation for editing
             passwordExplanationLabel.setVisible(true);
         } else {
-            // Set default values for a new employee
             addEditLabel.setText("Add Employee");
 
-            // Hide the password explanation label for adding
             passwordExplanationLabel.setVisible(false);
         }
 
-        // Configure save and cancel button actions
         saveButton.setOnAction(event -> saveEmployee());
         cancelButton.setOnAction(event -> cancelEdit());
     }
 
     public void saveEmployee() {
-        // Ensure all fields are filled
         String username = usernameField.getText().trim();
-        String password = passwordField.getText().trim();  // Get the password input
+        String password = passwordField.getText().trim();
         String firstName = firstNameField.getText().trim();
         String lastName = lastNameField.getText().trim();
         String email = emailField.getText().trim();
@@ -90,7 +84,6 @@ public class AddEditEmployeeController {
         EmployeeType employeeType = employeeTypeComboBox.getValue();
         Location location = locationComboBox.getValue();
 
-        // Validate fields
         if (username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || phone.isEmpty() || employeeType == null || location == null || (employee == null && password.isEmpty())) {
             errorLabel.setText("All fields are required!");
             errorLabel.setVisible(true);
@@ -99,7 +92,6 @@ public class AddEditEmployeeController {
             errorLabel.setVisible(false);
         }
 
-        // If editing an existing employee
         if (employee != null) {
             employee.setUsername(username);
             employee.setFirstName(firstName);
@@ -109,18 +101,15 @@ public class AddEditEmployeeController {
             employee.setEmployeeType(employeeType);
             employee.setLocation(location);
 
-            // Only hash the password if it's changed
             if (!password.isEmpty()) {
                 String salt = employeeService.generateSalt();
                 String hashedPassword = employeeService.hashPassword(password, salt);
                 employee.setHashedPassword(hashedPassword);
             }
 
-            // Update the employee in the database
             employeeService.updateEmployee(employee);
 
         } else {
-            // Create a new employee if none exists
             Employee newEmployee = new Employee();
             newEmployee.setId(new ObjectId());
             newEmployee.setUsername(username);
@@ -132,17 +121,15 @@ public class AddEditEmployeeController {
             newEmployee.setLocation(location);
             newEmployee.setInEmployment(true);
 
-            // Hash password for new employee
             String salt = employeeService.generateSalt();
             String hashedPassword = employeeService.hashPassword(password, salt);
             newEmployee.setHashedPassword(hashedPassword);
             newEmployee.setSalt(salt);
 
-            // Add the new employee to the database
             employeeService.addEmployee(newEmployee);
         }
 
-        close();  // Close the current view after saving
+        close();
     }
 
     private void cancelEdit() {
