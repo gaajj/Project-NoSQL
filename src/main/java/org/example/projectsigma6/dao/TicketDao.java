@@ -94,6 +94,9 @@ public class TicketDao extends BaseDao<Ticket> {
             if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
                 updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
             }
+            if (!existingTicket.getCreatedAt().equals(ticket.getCreatedAt())) {
+                updates.add(Updates.set("createdAt", ticket.getCreatedAt()));
+            }
             if (!existingTicket.getDueDate().equals(ticket.getDueDate())) {
                 updates.add(Updates.set("dueDate", ticket.getDueDate()));
             }

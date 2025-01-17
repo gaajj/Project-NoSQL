@@ -20,6 +20,7 @@ public class Ticket {
     private TicketPriority priority;
     private Employee createdBy;
     private Employee assignedTo;
+    private Date createdAt;
     private Date dueDate;
     private boolean isDeleted;
 
@@ -33,6 +34,7 @@ public class Ticket {
                   @BsonProperty("priority") TicketPriority priority,
                   @BsonProperty("createdBy") Employee createdBy,
                   @BsonProperty("assignedTo") Employee assignedTo,
+                  @BsonProperty("createdAt") Date createdAt,
                   @BsonProperty("dueDate") Date dueDate,
                   @BsonProperty("isDeleted") boolean isDeleted) {
         this.id = id;
@@ -43,6 +45,7 @@ public class Ticket {
         this.priority = priority;
         this.createdBy = createdBy;
         this.assignedTo = assignedTo;
+        this.createdAt = createdAt;
         this.dueDate = dueDate;
         this.isDeleted = isDeleted;
     }
@@ -109,6 +112,14 @@ public class Ticket {
 
     public void setAssignedTo(Employee assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getDueDate() {

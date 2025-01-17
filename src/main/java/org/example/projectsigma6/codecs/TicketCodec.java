@@ -39,11 +39,12 @@ public class TicketCodec implements Codec<Ticket> {
         } else {
             reader.readNull();
         }
+        Date createdAt = new Date(reader.readDateTime("createdAt")); // BSON date -> Date
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
         boolean isDeleted = reader.readBoolean("isDeleted");
 
         reader.readEndDocument();
-        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, dueDate, isDeleted);
+        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, createdAt, dueDate, isDeleted);
     }
 
     @Override
@@ -60,6 +61,7 @@ public class TicketCodec implements Codec<Ticket> {
         employeeCodec.encodeEmbedded(writer, ticket.getCreatedBy());
         writer.writeName("assignedTo");
             employeeCodec.encodeEmbedded(writer, ticket.getAssignedTo());
+        writer.writeDateTime("createdAt", ticket.getCreatedAt().getTime()); // Date -> BSON date
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
         writer.writeBoolean("isDeleted", ticket.isDeleted());
 

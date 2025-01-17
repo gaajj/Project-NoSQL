@@ -21,7 +21,7 @@ public class ExampleTicket {
     public static void main(String[] args) {
         ticketService = ServiceManager.getInstance().getTicketService();
         employeeService = ServiceManager.getInstance().getEmployeeService();
-        exampleAdd3Tickets();
+        exampleAddTicket();
     }
 
     public static void exampleGetTicketById() {
@@ -39,7 +39,7 @@ public class ExampleTicket {
     public static void exampleAddTicket() {
 
         Employee createdBy = employeeService.getEmployeeByUsername("john.doe");
-        Employee assignedTo = employeeService.getEmployeeByUsername("jane.smith");
+        Employee assignedTo = null;
 
         Ticket ticket = new Ticket();
         ticket.setId(new ObjectId());
@@ -50,6 +50,7 @@ public class ExampleTicket {
         ticket.setPriority(TicketPriority.HIGH);
         ticket.setCreatedBy(createdBy);
         ticket.setAssignedTo(assignedTo);
+        ticket.setCreatedAt(new Date());
         ticket.setDueDate(new GregorianCalendar(2025, Calendar.APRIL, 20).getTime());
         ticket.setDeleted(false);
 
@@ -83,6 +84,7 @@ public class ExampleTicket {
                 TicketPriority.HIGH,                   // priority
                 createdBy1,                            // createdBy
                 assignedTo1,                           // assignedTo
+                new Date(),
                 new Date(),                            // current date as dueDate
                 false
         );
@@ -100,6 +102,7 @@ public class ExampleTicket {
                 TicketPriority.MEDIUM,                       // priority
                 createdBy2,                                  // createdBy
                 assignedTo2,                                 // assignedTo
+                new Date(),
                 new Date(System.currentTimeMillis() + 86400000),// dueDate set to 1 day from now
                 false
         );
@@ -117,6 +120,7 @@ public class ExampleTicket {
                 TicketPriority.HIGH,                   // priority
                 createdBy3,                            // createdBy
                 assignedTo3,                           // assignedTo
+                new Date(),
                 new Date(System.currentTimeMillis() - 86400000), // dueDate set to 1 day ago
                 false
         );
