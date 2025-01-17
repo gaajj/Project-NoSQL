@@ -1,6 +1,7 @@
 package org.example.projectsigma6.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.example.projectsigma6.MainApp;
@@ -18,6 +19,9 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private Label errorLabel;
+
     public LoginController(MainApp mainApp) {
         this.mainApp = mainApp;
         this.employeeService = ServiceManager.getInstance().getEmployeeService();
@@ -29,7 +33,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (validateLogin(username, password)) {
-            mainApp.loadPage("DashboardView.fxml", new DashboardController(mainApp), null);
+            mainApp.showMainView();
         }
     }
 
@@ -38,6 +42,7 @@ public class LoginController {
 
         if (employee == null) {
             System.out.println("[*] Invalid username.");
+            showError();
             return false;
         }
 
@@ -52,8 +57,14 @@ public class LoginController {
             return true;
         } else {
             System.out.println("[*] Invalid password.");
+            showError();
             return false;
         }
+    }
+
+    private void showError() {
+        errorLabel.setText("Invalid username or password.");
+        errorLabel.setVisible(true);
     }
 
 }

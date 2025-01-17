@@ -1,6 +1,7 @@
 package org.example.projectsigma6.codecs;
 
 import org.bson.BsonReader;
+import org.bson.BsonType;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
@@ -8,11 +9,7 @@ import org.bson.codecs.EncoderContext;
 import org.bson.types.ObjectId;
 import org.example.projectsigma6.models.Employee;
 import org.example.projectsigma6.models.Ticket;
-import org.example.projectsigma6.models.enums.TicketPriority;
-import org.example.projectsigma6.models.enums.TicketStatus;
-import org.example.projectsigma6.models.enums.TicketType;
-import org.example.projectsigma6.services.EmployeeService;
-import org.example.projectsigma6.services.ServiceManager;
+import org.example.projectsigma6.models.enums.*;
 
 import java.util.Date;
 
@@ -34,14 +31,20 @@ public class TicketCodec implements Codec<Ticket> {
         String priorityString = reader.readString("priority"); // String
         TicketPriority priority = TicketPriority.valueOf(priorityString); // String -> Enum
         reader.readName("createdBy");
-        Employee createdBy = employeeCodec.decode(reader, decoderContext);
+        Employee createdBy = employeeCodec.decodeEmbedded(reader);
         reader.readName("assignedTo");
-        Employee assignedTo = employeeCodec.decode(reader, decoderContext);
+        Employee assignedTo = null;
+        if (reader.getCurrentBsonType() != BsonType.NULL) {
+            assignedTo = employeeCodec.decodeEmbedded(reader);
+        } else {
+            reader.readNull();
+        }
+        Date createdAt = new Date(reader.readDateTime("createdAt")); // BSON date -> Date
         Date dueDate = new Date(reader.readDateTime("dueDate")); // BSON date -> Date
         boolean isDeleted = reader.readBoolean("isDeleted");
 
         reader.readEndDocument();
-        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, dueDate, isDeleted);
+        return new Ticket(id, title, description, type, status, priority, createdBy, assignedTo, createdAt, dueDate, isDeleted);
     }
 
     @Override
@@ -55,9 +58,10 @@ public class TicketCodec implements Codec<Ticket> {
         writer.writeString("status", ticket.getStatus().name()); // Enum -> String
         writer.writeString("priority", ticket.getPriority().name()); // Enum -> String
         writer.writeName("createdBy");
-        employeeCodec.encode(writer, ticket.getCreatedBy(), encoderContext);
+        employeeCodec.encodeEmbedded(writer, ticket.getCreatedBy());
         writer.writeName("assignedTo");
-        employeeCodec.encode(writer, ticket.getAssignedTo(), encoderContext);
+            employeeCodec.encodeEmbedded(writer, ticket.getAssignedTo());
+        writer.writeDateTime("createdAt", ticket.getCreatedAt().getTime()); // Date -> BSON date
         writer.writeDateTime("dueDate", ticket.getDueDate().getTime()); // Date -> BSON date
         writer.writeBoolean("isDeleted", ticket.isDeleted());
 

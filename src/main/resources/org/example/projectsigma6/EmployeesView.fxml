@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Header -->
+    <top>
+        <HBox spacing="20.0" styleClass="employee-header">
+            <Label text="Employee Overview" styleClass="header-title" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Add Employee" onAction="#handleAddEmployee" styleClass="header-button" />
+            <Button text="Edit Employee" onAction="#handleEditEmployee" styleClass="header-button" />
+            <Button text="Delete Employee" onAction="#handleDeleteEmployee" styleClass="header-button" />
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <TableView fx:id="employeeTable">
+            <columns>
+                <TableColumn fx:id="columnId" text="ID" />
+                <TableColumn fx:id="columnUsername" text="Username" />
+                <TableColumn fx:id="columnFullName" text="Full Name" />
+                <TableColumn fx:id="columnEmail" text="Email" />
+                <TableColumn fx:id="columnPhoneNumber" text="Phone Number" />
+                <TableColumn fx:id="columnEmployeeType" text="Employee Type" />
+                <TableColumn fx:id="columnLocation" text="Location" />
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+            <Label text="Total Employees: " />
+            <Label fx:id="totalEmployeesLabel" text="0" />
+        </HBox>
+    </bottom>
+</BorderPane>

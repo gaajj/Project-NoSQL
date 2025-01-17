@@ -20,10 +20,25 @@ public class TicketDao extends BaseDao<Ticket> {
     public List<Ticket> getAllTickets() {
         try {
             List<Ticket> tickets = collection.find().into(new ArrayList<>());
-            System.out.println("Employees tickets successfully");
+            System.out.println("Employees tickets successfully retrieved");
             return tickets;
         } catch (Exception e) {
             System.err.println("Error in TicketDao retrieving employee by ID: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Ticket> getTicketsByEmployee(Employee employee) {
+        try {
+            List<Ticket> tickets = collection.find(Filters.eq("createdBy._id", employee.getId().toString())).into(new ArrayList<>());
+            for (Ticket ticket : tickets) {
+                ticket.toStringShort();
+            }
+            System.out.println("Employees tickets successfully retrieved");
+            return tickets;
+        } catch (Exception e) {
+            System.err.println("Error in TicketDao retrieving tickets from employee: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -91,8 +106,15 @@ public class TicketDao extends BaseDao<Ticket> {
             if (!existingTicket.getCreatedBy().equals(ticket.getCreatedBy())) {
                 updates.add(Updates.set("createdBy", ticket.getCreatedBy()));
             }
-            if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
-                updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
+            if (existingTicket.getAssignedTo() != null) {
+                if (!existingTicket.getAssignedTo().equals(ticket.getAssignedTo())) {
+                    updates.add(Updates.set("assignedTo", ticket.getAssignedTo()));
+                }
+            } else {
+                updates.add(Updates.set("assignedTo", null));
+            }
+            if (!existingTicket.getCreatedAt().equals(ticket.getCreatedAt())) {
+                updates.add(Updates.set("createdAt", ticket.getCreatedAt()));
             }
             if (!existingTicket.getDueDate().equals(ticket.getDueDate())) {
                 updates.add(Updates.set("dueDate", ticket.getDueDate()));

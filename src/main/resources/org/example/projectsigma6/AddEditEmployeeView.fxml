@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefWidth="600" prefHeight="500">
+    <children>
+        <!-- Title of the form -->
+        <Label fx:id="addEditLabel" text="Add/Edit Employee" layoutX="200.0" layoutY="20.0" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+        <!-- Username -->
+        <Label text="Username *" layoutX="50.0" layoutY="60.0"/>
+        <TextField fx:id="usernameField" layoutX="150.0" layoutY="60.0" prefWidth="400.0"/>
+
+        <!-- Password -->
+        <Label text="Password *" layoutX="50.0" layoutY="100.0"/>
+        <PasswordField fx:id="passwordField" layoutX="150.0" layoutY="100.0" prefWidth="400.0"/>
+
+        <!-- Password Explanation Label (visible only when editing) -->
+        <Label fx:id="passwordExplanationLabel" text="Leave the password field empty to retain the current password." visible="false" layoutX="150.0" layoutY="130.0" style="-fx-font-size: 12px; -fx-text-fill: gray;"/>
+
+        <!-- First Name -->
+        <Label text="First Name *" layoutX="50.0" layoutY="160.0"/>
+        <TextField fx:id="firstNameField" layoutX="150.0" layoutY="160.0" prefWidth="400.0"/>
+
+        <!-- Last Name -->
+        <Label text="Last Name *" layoutX="50.0" layoutY="200.0"/>
+        <TextField fx:id="lastNameField" layoutX="150.0" layoutY="200.0" prefWidth="400.0"/>
+
+        <!-- Email -->
+        <Label text="Email *" layoutX="50.0" layoutY="240.0"/>
+        <TextField fx:id="emailField" layoutX="150.0" layoutY="240.0" prefWidth="400.0"/>
+
+        <!-- Phone Number -->
+        <Label text="Phone Number *" layoutX="50.0" layoutY="280.0"/>
+        <TextField fx:id="phoneField" layoutX="150.0" layoutY="280.0" prefWidth="400.0"/>
+
+        <!-- Employee Type -->
+        <Label text="Employee Type *" layoutX="50.0" layoutY="320.0"/>
+        <ComboBox fx:id="employeeTypeComboBox" layoutX="150.0" layoutY="320.0" prefWidth="200.0"/>
+
+        <!-- Location -->
+        <Label text="Location *" layoutX="50.0" layoutY="360.0"/>
+        <ComboBox fx:id="locationComboBox" layoutX="150.0" layoutY="360.0" prefWidth="200.0"/>
+
+        <!-- Error Label -->
+        <Label fx:id="errorLabel" text="" layoutX="150.0" layoutY="400.0" textFill="red" visible="false"/>
+
+        <!-- Buttons: Save and Cancel -->
+        <HBox spacing="10" alignment="center" layoutX="150.0" layoutY="440.0">
+            <Button fx:id="saveButton" text="Save" prefWidth="100.0"/>
+            <Button fx:id="cancelButton" text="Cancel" prefWidth="100.0"/>
+        </HBox>
+    </children>
+</AnchorPane>

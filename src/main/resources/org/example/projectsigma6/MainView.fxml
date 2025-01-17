@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles/main.css">
+    <!-- Header -->
+    <top>
+        <HBox spacing="20.0" styleClass="dashboard-header">
+            <Label text="Ticket Management System" styleClass="dashboard-title" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="usernameLabel" text="username" />
+            <Button text="Logout" onAction="#handleLogout" styleClass="dashboard-button" />
+        </HBox>
+    </top>
+
+    <!-- Sidebar -->
+    <left>
+        <VBox spacing="10.0" styleClass="dashboard-sidebar">
+            <Button fx:id="dashboardButton" text="Dashboard" onAction="#showDashboard" styleClass="sidebar-button" />
+            <Button fx:id="ticketsButton" text="Tickets" onAction="#showTicketsView" styleClass="sidebar-button" />
+            <Button fx:id="createTicketButton" text="Create Ticket" onAction="#showAddTicket" styleClass="sidebar-button" />
+            <Button fx:id="employeesButton" text="Employees" onAction="#showEmployeesView" styleClass="sidebar-button" />
+        </VBox>
+    </left>
+
+    <!-- Main Content (Dynamic) -->
+    <center>
+        <Pane fx:id="contentArea" styleClass="dashboard-content" />
+    </center>
+</BorderPane>

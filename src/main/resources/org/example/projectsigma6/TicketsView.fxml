@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1">
+    <!-- Header -->
+    <top>
+        <HBox spacing="20.0" styleClass="ticket-header">
+            <Label styleClass="header-title" text="Ticket Overview" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="Enter search..." onAction="#handleSearch" />
+            <ComboBox fx:id="priorityComboBox" onAction="#handleFilterPriority" />
+            <Button text="Add Ticket" onAction="#handleAddTicket" styleClass="header-button" />
+            <Button fx:id="editTicketButton" text="Edit Ticket" onAction="#handleEditTicket" styleClass="header-button" />
+            <Button fx:id="deleteTicketButton" text="Delete Ticket" onAction="#handleDeleteTicket" styleClass="header-button" />
+        </HBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <TableView fx:id="ticketTable">
+            <columns>
+                <TableColumn fx:id="columnTitle" text="Title" />
+                <TableColumn fx:id="columnPriority" text="Priority" />
+                <TableColumn fx:id="columnStatus" text="Status" />
+                <TableColumn fx:id="columnType" text="Type" />
+                <TableColumn fx:id="columnCreatedBy" text="Created By" />
+                <TableColumn fx:id="columnAssignedTo" text="Assigned To" />
+                <TableColumn fx:id="columnDueDate" text="Due Date" />
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Footer -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <Label text="Total Tickets: " />
+            <Label fx:id="totalTicketsLabel" text="0" />
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -1,6 +1,7 @@
 package org.example.projectsigma6.codecs;
 
 import org.bson.BsonReader;
+import org.bson.BsonType;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.types.ObjectId;
@@ -32,14 +33,101 @@ public class EmployeeCodec implements Codec<Employee> {
         return new Employee(id, username, hashedPassword, salt, firstName, lastName, email, phoneNumber, employeeType, location, inEmployment);
     }
 
+    public Employee decodeEmbedded(BsonReader reader) {
+        ObjectId id = null;
+        String username = null;
+        String lastName = null;
+        String firstName = null;
+        String email = null;
+        String phoneNumber = null;
+        EmployeeType employeeType = null;
+        Location location = null;
+        boolean inEmployment = false;
+
+        reader.readStartDocument();
+        while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+            String fieldName = reader.readName();
+            switch (fieldName) {
+                case "_id":
+                    id = new ObjectId(reader.readString());
+                    break;
+                case "username":
+                    username = reader.readString();
+                    break;
+                case "lastName":
+                    lastName = reader.readString();
+                    break;
+                case "firstName":
+                    firstName = reader.readString();
+                    break;
+                case "email":
+                    email = reader.readString();
+                    break;
+                case "phoneNumber":
+                    phoneNumber = reader.readString();
+                    break;
+                case "employeeType":
+                    String employeeTypeString = reader.readString();
+                    employeeType = EmployeeType.valueOf(employeeTypeString);
+                    break;
+                case "location":
+                    String locationString = reader.readString();
+                    location = Location.valueOf(locationString);
+                    break;
+                case "inEmployment":
+                    inEmployment = reader.readBoolean();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
+        reader.readEndDocument();
+
+        if (id == null || username == null || firstName == null || lastName == null || email == null ||
+                phoneNumber == null || employeeType == null || location == null) {
+            throw new IllegalStateException("Missing required fields for Employee object");
+        }
+
+        return new Employee(id, username, firstName, lastName, email, phoneNumber, employeeType, location, inEmployment);
+    }
+
     @Override
     public void encode(BsonWriter writer, Employee employee, org.bson.codecs.EncoderContext encoderContext) {
         writer.writeStartDocument();
 
         writer.writeString("_id", employee.getId().toString());
         writer.writeString("username", employee.getUsername());
-        writer.writeString("hashedPassword", employee.getHashedPassword());
-        writer.writeString("salt", employee.getSalt());
+        if (employee.getHashedPassword() != null) {
+            writer.writeString("hashedPassword", employee.getHashedPassword());
+        } else {
+            writer.writeNull("hashedPassword");
+        }
+        if (employee.getSalt() != null) {
+            writer.writeString("salt", employee.getSalt());
+        } else {
+            writer.writeNull("salt");
+        }
+        writer.writeString("firstName", employee.getFirstName());
+        writer.writeString("lastName", employee.getLastName());
+        writer.writeString("email", employee.getEmail());
+        writer.writeString("phoneNumber", employee.getPhoneNumber());
+        writer.writeString("employeeType", employee.getEmployeeType().name()); // Enum->String
+        writer.writeString("location", employee.getLocation().name()); // Enum->String
+        writer.writeBoolean("inEmployment", employee.isInEmployment());
+
+        writer.writeEndDocument();
+    }
+
+    public void encodeEmbedded(BsonWriter writer, Employee employee) {
+        if (employee == null) {
+            writer.writeNull();
+            return;
+        }
+        writer.writeStartDocument();
+
+        writer.writeString("_id", employee.getId().toString());
+        writer.writeString("username", employee.getUsername());
         writer.writeString("firstName", employee.getFirstName());
         writer.writeString("lastName", employee.getLastName());
         writer.writeString("email", employee.getEmail());
