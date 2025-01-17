@@ -20,6 +20,10 @@ public class TicketService {
         return ticketDao.getAllTickets();
     }
 
+    public List<Ticket> getTicketsByEmployee(Employee employee) {
+        return ticketDao.getTicketsByEmployee(employee);
+    }
+
     public Ticket getTicketById(String id) {
         try {
             Ticket ticket = ticketDao.getTicketById(id);

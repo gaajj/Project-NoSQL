@@ -29,6 +29,21 @@ public class TicketDao extends BaseDao<Ticket> {
         }
     }
 
+    public List<Ticket> getTicketsByEmployee(Employee employee) {
+        try {
+            List<Ticket> tickets = collection.find(Filters.eq("createdBy._id", employee.getId().toString())).into(new ArrayList<>());
+            for (Ticket ticket : tickets) {
+                ticket.toStringShort();
+            }
+            System.out.println("Employees tickets successfully retrieved");
+            return tickets;
+        } catch (Exception e) {
+            System.err.println("Error in TicketDao retrieving tickets from employee: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Ticket getTicketById(String id) {
         try {
             Ticket ticket = collection.find(Filters.eq("_id", id)).first();

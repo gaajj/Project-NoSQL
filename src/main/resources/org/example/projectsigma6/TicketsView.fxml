@@ -3,17 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1">
     <!-- Header -->
     <top>
         <HBox spacing="20.0" styleClass="ticket-header">
             <Label styleClass="header-title" text="Ticket Overview" />
             <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="Enter search..." onAction="#handleSearch" />
             <ComboBox fx:id="priorityComboBox" onAction="#handleFilterPriority" />
-            <TextField fx:id="searchField" onAction="#handleSearch" promptText="Enter search..." />
-            <Button onAction="#handleAddTicket" styleClass="header-button" text="Add Ticket" />
-            <Button onAction="#handleEditTicket" styleClass="header-button" text="Edit Ticket" />
-            <Button onAction="#handleDeleteTicket" styleClass="header-button" text="Delete Ticket" />
+            <Button text="Add Ticket" onAction="#handleAddTicket" styleClass="header-button" />
+            <Button fx:id="editTicketButton" text="Edit Ticket" onAction="#handleEditTicket" styleClass="header-button" />
+            <Button fx:id="deleteTicketButton" text="Delete Ticket" onAction="#handleDeleteTicket" styleClass="header-button" />
         </HBox>
     </top>
 

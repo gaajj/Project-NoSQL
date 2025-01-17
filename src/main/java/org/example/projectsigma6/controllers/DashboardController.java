@@ -74,7 +74,7 @@ public class DashboardController {
     }
 
     private void getTicketData() {
-        List<Ticket> Tickets = ServiceManager.getInstance().getTicketService().getAllTickets();
+        List<Ticket> Tickets = ServiceManager.getInstance().getTicketService().getTicketsByEmployee(loggedInEmployee);
 
         openTickets = 0;
         closedTickets = 0;

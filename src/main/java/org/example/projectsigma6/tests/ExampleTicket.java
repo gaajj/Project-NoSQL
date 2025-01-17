@@ -38,8 +38,8 @@ public class ExampleTicket {
 
     public static void exampleAddTicket() {
 
-        Employee createdBy = employeeService.getEmployeeByUsername("john.doe");
-        Employee assignedTo = null;
+        Employee createdBy = employeeService.getEmployeeByUsername("jan.de.molen");
+        Employee assignedTo = employeeService.getEmployeeByUsername("charlie.williams");
 
         Ticket ticket = new Ticket();
         ticket.setId(new ObjectId());
