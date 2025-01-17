@@ -16,6 +16,7 @@ import org.example.projectsigma6.services.ServiceManager;
 import org.example.projectsigma6.services.TicketService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -138,7 +139,12 @@ public class TicketsViewController {
 
     private void loadTickets() {
         // Fetch all tickets
-        List<Ticket> tickets = ticketService.getAllTickets();
+        List<Ticket> tickets = new ArrayList<>();
+        if (loggedInEmployee.getEmployeeType() == EmployeeType.REGULAR) {
+            tickets = ServiceManager.getInstance().getTicketService().getTicketsByEmployee(loggedInEmployee);
+        } else {
+            tickets = ServiceManager.getInstance().getTicketService().getAllTickets();
+        }
         ticketSearchController.setTickets(tickets);
 
         // Filter out deleted tickets
