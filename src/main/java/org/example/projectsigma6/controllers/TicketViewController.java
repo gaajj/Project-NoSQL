@@ -50,7 +50,7 @@ public class TicketViewController {
     }
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         // Populate fields with ticket data
         titleField.setText(ticket.getTitle());
         descriptionField.setText(ticket.getDescription());
@@ -61,6 +61,19 @@ public class TicketViewController {
         // Populate ComboBoxes
         assignedToComboBox.setItems(FXCollections.observableArrayList(employeeService.getAllEmployees()));
         statusComboBox.setItems(FXCollections.observableArrayList(TicketStatus.values()));
+
+        // Set the StringConverter for the TicketStatus ComboBox
+        statusComboBox.setConverter(new StringConverter<TicketStatus>() {
+            @Override
+            public String toString(TicketStatus status) {
+                return status != null ? status.toString() : "";
+            }
+
+            @Override
+            public TicketStatus fromString(String string) {
+                return string != null ? TicketStatus.valueOf(string) : null;
+            }
+        });
 
         assignedToComboBox.setValue(ticket.getAssignedTo());
         dueDatePicker.setValue(ticket.getDueDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());

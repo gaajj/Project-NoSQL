@@ -3,16 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12">
     <!-- Header -->
     <top>
         <HBox spacing="20.0" styleClass="ticket-header">
-            <Label text="Ticket Overview" styleClass="header-title" />
+            <Label styleClass="header-title" text="Ticket Overview" />
             <Region HBox.hgrow="ALWAYS" />
-            <TextField fx:id="searchField" promptText="Enter search..." onAction="#handleSearch" />
-            <Button text="Add Ticket" onAction="#handleAddTicket" styleClass="header-button" />
-            <Button text="Edit Ticket" onAction="#handleEditTicket" styleClass="header-button" />
-            <Button text="Delete Ticket" onAction="#handleDeleteTicket" styleClass="header-button" />
+            <ComboBox fx:id="priorityComboBox" onAction="#handleFilterPriority" />
+            <TextField fx:id="searchField" onAction="#handleSearch" promptText="Enter search..." />
+            <Button onAction="#handleAddTicket" styleClass="header-button" text="Add Ticket" />
+            <Button onAction="#handleEditTicket" styleClass="header-button" text="Edit Ticket" />
+            <Button onAction="#handleDeleteTicket" styleClass="header-button" text="Delete Ticket" />
         </HBox>
     </top>
 
@@ -33,7 +34,7 @@
 
     <!-- Footer -->
     <bottom>
-        <HBox spacing="10.0" alignment="CENTER_RIGHT">
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
             <Label text="Total Tickets: " />
             <Label fx:id="totalTicketsLabel" text="0" />
         </HBox>
